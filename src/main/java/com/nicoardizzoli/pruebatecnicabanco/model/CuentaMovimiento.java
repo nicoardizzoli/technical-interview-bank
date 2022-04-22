@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
@@ -11,7 +12,9 @@ import java.util.Objects;
 @ToString
 @Table(name = "cuenta_movimiento")
 @Entity(name = "CuentaMovimiento")
-public class CuentaMovimiento {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CuentaMovimiento implements Serializable {
 
     @EmbeddedId
     private CuentaMovimientoId cuentaMovimientoId;
@@ -27,6 +30,13 @@ public class CuentaMovimiento {
     private Movimiento movimiento;
 
 
+
+
+    public CuentaMovimiento(Cuenta cuenta, Movimiento movimiento){
+        this.cuentaMovimientoId = new CuentaMovimientoId(cuenta.getCuentaId(), movimiento.getMovimientoId());
+        this.cuenta = cuenta;
+        this.movimiento = movimiento;
+    }
 
 
     @Override

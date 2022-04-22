@@ -5,7 +5,10 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -15,7 +18,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Cuenta {
+public class Cuenta implements Serializable {
 
     @Id
     @SequenceGenerator(name = "cuenta_id_seq", sequenceName = "cuenta_id_seq")
@@ -39,6 +42,24 @@ public class Cuenta {
     @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "cliente_id")
     private Cliente titular;
 
+    @NotNull
+    private BigDecimal tope = new BigDecimal(1000);
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta")
+    @ToString.Exclude
+    private List<CuentaMovimiento> movimientos = new ArrayList<>();
+
+
+    public void addMovimiento(CuentaMovimiento cuentaMovimiento) {
+        if (!this.movimientos.contains(cuentaMovimiento)) {
+            this.movimientos.add(cuentaMovimiento);
+        }
+    }
+
+    public void removeMovimiento(CuentaMovimiento cuentaMovimiento) {
+        this.movimientos.remove(cuentaMovimiento);
+    }
 
 
     @Override

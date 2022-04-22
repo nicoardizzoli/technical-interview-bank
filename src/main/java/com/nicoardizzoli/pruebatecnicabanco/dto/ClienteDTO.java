@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ClienteDTO {
-    private Long clienteId;
+    private String clienteId;
     private String nombre;
     private String apellido;
     private String genero;

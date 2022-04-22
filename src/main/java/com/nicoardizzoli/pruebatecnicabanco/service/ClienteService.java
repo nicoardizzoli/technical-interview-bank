@@ -16,9 +16,10 @@ import java.util.UUID;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final ClienteMapper clienteMapper;
 
     public Cliente saveCliente(ClienteDTO clienteDTO) {
-        Cliente cliente = ClienteMapper.INSTANCE.dtoToCliente(clienteDTO);
+        Cliente cliente = clienteMapper.dtoToCliente(clienteDTO);
         cliente.setClienteId(UUID.randomUUID().toString());
         log.info(cliente.toString());
         return clienteRepository.save(cliente);

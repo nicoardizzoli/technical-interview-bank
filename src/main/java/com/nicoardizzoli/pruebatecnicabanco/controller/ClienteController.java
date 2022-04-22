@@ -1,6 +1,7 @@
 package com.nicoardizzoli.pruebatecnicabanco.controller;
 
 import com.nicoardizzoli.pruebatecnicabanco.dto.ClienteDTO;
+import com.nicoardizzoli.pruebatecnicabanco.model.Cliente;
 import com.nicoardizzoli.pruebatecnicabanco.service.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ClienteController {
 
     @PostMapping("/guardar")
     public ResponseEntity<String> saveCliente(@RequestBody ClienteDTO clienteDTO){
-        clienteService.saveCliente(clienteDTO);
-        return new ResponseEntity<>("Cliente creado exitosamente",HttpStatus.CREATED);
+        Cliente cliente = clienteService.saveCliente(clienteDTO);
+        return new ResponseEntity<>("Cliente creado exitosamente, id: "+ cliente.getClienteId(),HttpStatus.CREATED);
     }
 }

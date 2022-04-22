@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +25,7 @@ import java.util.UUID;
         //esto es el equivalente a ponerle el unique en la @Column, nada mas que aca podemos elegir el nombre de la constraint
         @UniqueConstraint(name = "cliente_id_unique", columnNames = "cliente_id")
 })
-public class Cliente extends Persona {
+public class Cliente extends Persona implements Serializable {
 
     @Column(name = "cliente_id", nullable = false)
     private String clienteId;

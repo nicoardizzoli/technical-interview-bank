@@ -5,7 +5,11 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -15,7 +19,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Movimiento {
+public class Movimiento implements Serializable {
 
     @Id
     @SequenceGenerator(name = "movimiento_id_seq", sequenceName = "movimiento_id_seq")
@@ -29,6 +33,29 @@ public class Movimiento {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_movimiento")
     private TipoMovimiento tipoMovimiento;
+
+    @NotNull
+    private BigDecimal valor;
+
+    @NotNull
+    @Column(name = "saldo_cuenta")
+    private BigDecimal saldoCuenta;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimiento")
+    @ToString.Exclude
+    private List<CuentaMovimiento> movimientos = new ArrayList<>();
+
+
+    public void addMovimiento(CuentaMovimiento cuentaMovimiento) {
+        if (!this.movimientos.contains(cuentaMovimiento)) {
+            this.movimientos.add(cuentaMovimiento);
+        }
+    }
+
+    public void removeMovimiento(CuentaMovimiento cuentaMovimiento) {
+        this.movimientos.remove(cuentaMovimiento);
+    }
+
 
 
 
