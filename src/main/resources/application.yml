@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: prueba-tecnica-banco
+  datasource:
+    url: jdbc:postgresql://localhost:5432/prueba-tecnica-banco
+    username: 'nicoardizzoli'
+    password: 'password'
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
