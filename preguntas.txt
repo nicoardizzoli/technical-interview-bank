@@ -18,3 +18,5 @@ no para transferencia de datos pero si por ej cuando se retorna un save y poder 
 8) es mejor declarar variables para que quede mas legible o directamente poner como parametro la expresion  (ver movimiento service)
 
 9) Como podria hacer en el Excepcion handler para enviar o no el throwable a la response, agregando algun boolean ?
+
+
