@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/cuentas")
@@ -20,7 +22,7 @@ public class CuentaController {
     private final CuentaService cuentaService;
 
     @PostMapping("/guardar")
-    public ResponseEntity<String> saveCuenta(@RequestBody CuentaDTO cuentaDTO){
+    public ResponseEntity<String> saveCuenta(@Valid @RequestBody CuentaDTO cuentaDTO){
         Cuenta cuenta = cuentaService.saveCuenta(cuentaDTO);
         return new ResponseEntity<>("Cuenta creada exitosamente: "+ cuenta.getCuentaId(), HttpStatus.CREATED);
     }

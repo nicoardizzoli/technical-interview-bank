@@ -26,39 +26,40 @@ public class Cuenta implements Serializable {
     @Column(name = "cuenta_id")
     private Long cuentaId;
 
-    @NotNull
+
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_cuenta")
     private TipoCuenta tipoCuenta;
 
-    @NotNull
+
     @Column(name = "saldo_inicial")
     private BigDecimal saldoInicial;
 
-    @NotNull
+
     private Boolean estado = false;
 
     @ManyToOne()
     @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "cliente_id")
     private Cliente titular;
 
-    @NotNull
+
     private BigDecimal tope = new BigDecimal(1000);
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta")
     @ToString.Exclude
-    private List<CuentaMovimiento> movimientos = new ArrayList<>();
+    private List<Movimiento> movimientos = new ArrayList<>();
 
 
-    public void addMovimiento(CuentaMovimiento cuentaMovimiento) {
-        if (!this.movimientos.contains(cuentaMovimiento)) {
-            this.movimientos.add(cuentaMovimiento);
+    public void addMovimiento(Movimiento movimiento) {
+        if (!this.movimientos.contains(movimiento)) {
+            this.movimientos.add(movimiento);
+            movimiento.setCuenta(this);
         }
     }
 
-    public void removeMovimiento(CuentaMovimiento cuentaMovimiento) {
-        this.movimientos.remove(cuentaMovimiento);
+    public void removeMovimiento(Movimiento movimiento) {
+        this.movimientos.remove(movimiento);
     }
 
 

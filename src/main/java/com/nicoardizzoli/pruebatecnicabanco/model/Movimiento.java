@@ -26,37 +26,30 @@ public class Movimiento implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movimiento_id_seq")
     private Long movimientoId;
 
-    @NotNull
+
     private LocalDateTime fecha;
 
-    @NotNull
+
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_movimiento")
     private TipoMovimiento tipoMovimiento;
 
-    @NotNull
+
     private BigDecimal valor;
 
-    @NotNull
-    @Column(name = "saldo_cuenta")
-    private BigDecimal saldoCuenta;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimiento")
+    @ManyToOne()
     @ToString.Exclude
-    private List<CuentaMovimiento> movimientos = new ArrayList<>();
+    private Cuenta cuenta;
 
 
-    public void addMovimiento(CuentaMovimiento cuentaMovimiento) {
-        if (!this.movimientos.contains(cuentaMovimiento)) {
-            this.movimientos.add(cuentaMovimiento);
-        }
+
+    public BigDecimal getSaldoCuenta(){
+        return this.getCuenta().getSaldoInicial();
     }
 
-    public void removeMovimiento(CuentaMovimiento cuentaMovimiento) {
-        this.movimientos.remove(cuentaMovimiento);
+    public BigDecimal getLimiteDiario(){
+        return this.getCuenta().getTope();
     }
-
-
 
 
     @Override

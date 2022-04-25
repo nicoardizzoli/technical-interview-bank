@@ -30,10 +30,10 @@ public class Cliente extends Persona implements Serializable {
     @Column(name = "cliente_id", nullable = false)
     private String clienteId;
 
-    @NotBlank
+
     private String contrasena;
 
-    @NotNull
+
     private Boolean estado;
 
     //PARA HACER LA BIDIRECCIONALIDAD ACORDARSE DE HACER LOS ADD Y REMOVES, PARA QUE TAMBIEN ESTE EN CUENTA.

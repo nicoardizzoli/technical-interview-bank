@@ -23,27 +23,27 @@ public abstract class Persona {
     @Column(name = "persona_id")
     private Long personaId;
 
-    @NotBlank //ESTAS DE JAVAX SON PARA EL RUNTIME.
+
     @Column(name = "nombre", nullable = false) //ESTAS COMPROBACIONES SON PARA LA CREACION DE LA TABLA
     private String nombre;
 
-    @NotBlank
+
     private String apellido;
 
-    @NotNull
+
     @Enumerated(value = EnumType.STRING)
     private Genero genero;
 
-    @NotNull
+
     private Integer edad;
 
-    @NotNull
+
     private String identificacion;
 
-    @NotBlank
+
     private String direccion;
 
-    @NotBlank
+
     private String telefono;
 
     @Override

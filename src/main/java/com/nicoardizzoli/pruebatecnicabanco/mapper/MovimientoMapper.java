@@ -4,7 +4,7 @@ import com.nicoardizzoli.pruebatecnicabanco.dto.MovimientoDTO;
 import com.nicoardizzoli.pruebatecnicabanco.model.Movimiento;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CuentaMapper.class})
 public interface MovimientoMapper {
 
     //IMPORTANTE!!!!!! USANDO SPRING HAY QUE USAR DI, Y NO ESTO ASI.

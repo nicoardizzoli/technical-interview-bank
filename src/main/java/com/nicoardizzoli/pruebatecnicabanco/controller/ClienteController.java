@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/clientes")
@@ -19,7 +21,7 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping("/guardar")
-    public ResponseEntity<String> saveCliente(@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<String> saveCliente(@Valid @RequestBody ClienteDTO clienteDTO){
         Cliente cliente = clienteService.saveCliente(clienteDTO);
         return new ResponseEntity<>("Cliente creado exitosamente, id: "+ cliente.getClienteId(),HttpStatus.CREATED);
     }
