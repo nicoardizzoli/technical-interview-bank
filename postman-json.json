@@ -1,0 +1,114 @@
+// 20220425034413
+// https://www.postman.com/collections/90d1ecba6bb11533f9fd
+
+{
+  "info": {
+    "_postman_id": "a148b1b4-40b4-474e-b2c5-6fb07b2e882b",
+    "name": "PRUEBA-TECNICA-BANCO",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "SAVE CLIENTE",
+      "id": "c9635609-2d48-417a-95e0-7e8670cdb1b2",
+      "request": {
+        "method": "POST",
+        "header": [
+
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombre\": \"Nicolas\",\r\n  \"apellido\": \"Ardizzoli\",\r\n  \"genero\": \"MASCULINO\",\r\n  \"edad\": 30,\r\n  \"identificacion\": \"36683517\",\r\n  \"direccion\": \"33 566\",\r\n  \"telefono\": \"2213242321\",\r\n  \"contrasena\": \"1234\",\r\n  \"estado\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/v1/clientes/guardar"
+      },
+      "response": [
+
+      ]
+    },
+    {
+      "name": "SAVE CUENTA / agarrar nuevo clienteID",
+      "id": "a1aa0635-7618-48f7-a310-d8fffcc86034",
+      "request": {
+        "method": "POST",
+        "header": [
+
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"tipoCuenta\": \"CORRIENTE\",\r\n  \"saldoInicial\": 27.33,\r\n  \"estado\": true,\r\n  \"tope\": 31.50,\r\n  \"titular\": {\r\n    \"clienteId\": \"df6aaf85-d62e-4238-8406-de0c9ab7606b\"\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/v1/cuentas/guardar"
+      },
+      "response": [
+
+      ]
+    },
+    {
+      "name": "SAVE MOVIMIENTO / pathparam cuentaId",
+      "id": "93a70736-f594-42e5-a718-3e826bdcb98a",
+      "request": {
+        "method": "POST",
+        "header": [
+
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"fecha\": \"2021-02-13 05:29:53\",\r\n    \"tipoMovimiento\": \"RETIRO\",\r\n    \"valor\": -24.48\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/movimientos/guardar?cuentaId=2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "movimientos",
+            "guardar"
+          ],
+          "query": [
+            {
+              "key": "cuentaId",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": [
+
+      ]
+    },
+    {
+      "name": "GET REPORTE",
+      "id": "1e3dc1ba-d81b-4c2c-a2ea-9705e1d59a2b",
+      "request": {
+        "method": "GET",
+        "header": [
+
+        ],
+        "url": null
+      },
+      "response": [
+
+      ]
+    }
+  ]
+}

@@ -7,3 +7,4 @@
 7) custom exceptions, con un ExceptionPayload hecho por mi, y con el handler para las customs exceptions con @ControllerAdvice y @ExceptionHandler.
 8) en el movimiento controller, se puede parsear el string de un @RequestPram a por ej Date
 9) se uso herencia entre Persona y Cliente con las anotations: @Inheritance(strategy = InheritanceType.JOINED)  en persona, y en cliente: @PrimaryKeyJoinColumn(name = "persona_id")
+10) se puede formatear el string del payload con @JsonFormat de los dtos.
