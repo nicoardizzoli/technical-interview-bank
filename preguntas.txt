@@ -1,20 +1,23 @@
-1) en los controllers, usamos los DTO para la transferencia de datos, pero esta mal si se usa la clase del modelo en si en algun aparte?
+1) Relaciones, ej OneToOne, OneToMany, etc. (tengo el diagrama que hice y el enunciado)
+
+2) en los controllers, usamos los DTO para la transferencia de datos, pero esta mal si se usa la clase del modelo en si en algun aparte?
 no para transferencia de datos pero si por ej cuando se retorna un save y poder mostrar el id ??
 
-2) Relaciones, ej OneToOne, OneToMany, etc. (tengo el diagrama que hice y el enunciado)
-
-3) exceptions: es mejor hacer una exception generica con un mensaje especifico para cada evento o hacer una custom exception por cada evento?
+3) exceptions: es mejor hacer una exception generica con un mensaje especifico para cada evento o hacer una custom exception por cada evento o algo intermedio?
+ej: ClienteNotFoundException, CuentaNotFoundException, MovimientoNotFoundException o NotFoundException y listo
 
 4) los query params cuando se deberian utilizar?,  siempre es mejor intentar mandar todo en el payload o podemos mandarlo tmb por parametros?
 
-5) sabes algo de los Optionals en java? cuando conviene usarlos
+5) Forma adecuada de comentar el codigo
 
 6) movimiento repository: seria mejor mantener los metodos simples? o por ej combinar alguno (tengo el codigo para revisar)
 
 7) bidireccionalidad esta bien que en el movimientoservice se guarde la cuenta y que la cuenta haga el add de movimiento que genere la bidirec? (tengo el codigo para revisar)
 
-8) es mejor declarar variables para que quede mas legible o directamente poner como parametro la expresion  (ver movimiento service)
+8) es mejor declarar variables para que quede mas legible o directamente poner como parametro la expresion inline (ver movimiento service)
 
 9) Como podria hacer en el Excepcion handler para enviar o no el throwable a la response, agregando algun boolean ?
 
+10) La logica del control de los parametros que nos envian etc, se hace en el mismo controller, o en el service?
 
+11) Integration test: si tengo que probar un repository que necesita guardar cosas con otro repository, los usamos o como habria que hacer (ver MovimientoRepositoryTest)

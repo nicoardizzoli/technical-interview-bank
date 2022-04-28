@@ -22,4 +22,5 @@ public class MovimientoDTO {
     private BigDecimal valor;
 
     private CuentaDTO cuenta;
+
 }

@@ -40,8 +40,14 @@ public class ApiExceptionHandler {
      * Este metodo maneja las excepciones que tira el @Valid en el controller, osea la validacion de los campos requeridos!
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<Object> handleClienteExistenteException(MethodArgumentNotValidException e) {
         ApiExceptionPayload apiExceptionPayload = new ApiExceptionPayload(Objects.requireNonNull(e.getFieldError()).getDefaultMessage(), e, HttpStatus.BAD_REQUEST, ZonedDateTime.now());
         return new ResponseEntity<>(apiExceptionPayload, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FoundException.class)
+    public ResponseEntity<Object> handleClienteExistenteException(FoundException e) {
+        ApiExceptionPayload apiExceptionPayload = new ApiExceptionPayload(Objects.requireNonNull(e.getMessage()), e, HttpStatus.NOT_ACCEPTABLE, ZonedDateTime.now());
+        return new ResponseEntity<>(apiExceptionPayload, HttpStatus.NOT_ACCEPTABLE);
     }
 }

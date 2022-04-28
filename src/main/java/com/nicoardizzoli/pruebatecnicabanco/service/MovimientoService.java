@@ -6,6 +6,7 @@ import com.nicoardizzoli.pruebatecnicabanco.exception.NotFoundException;
 import com.nicoardizzoli.pruebatecnicabanco.mapper.MovimientoMapper;
 import com.nicoardizzoli.pruebatecnicabanco.model.Cuenta;
 import com.nicoardizzoli.pruebatecnicabanco.model.Movimiento;
+import com.nicoardizzoli.pruebatecnicabanco.model.MovimientoReport;
 import com.nicoardizzoli.pruebatecnicabanco.model.TipoMovimiento;
 import com.nicoardizzoli.pruebatecnicabanco.repository.CuentaRepository;
 import com.nicoardizzoli.pruebatecnicabanco.repository.MovimientoRepository;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -29,6 +29,7 @@ public class MovimientoService {
     public void saveMovimiento(MovimientoDTO movimientoDTO, Long cuentaId) {
         Cuenta cuentaEncontrada = cuentaRepository.findById(cuentaId).orElseThrow(() -> new NotFoundException("Cuenta no encontrada"));
         Movimiento movimiento = movimientoMapper.dtoToMovimiento(movimientoDTO);
+        movimiento.setSaldoInicialDeCuenta(cuentaEncontrada.getSaldoInicial());
         cuentaEncontrada.addMovimiento(movimiento);
         this.chequearMovimiento(movimiento, cuentaEncontrada);
         cuentaRepository.save(cuentaEncontrada);
@@ -41,13 +42,14 @@ public class MovimientoService {
         boolean esDeposito = movimiento.getTipoMovimiento().equals(TipoMovimiento.DEPOSITO);
 
         //si es retiro o deposito y nos llega mal el valor desde el cliente
-        if (esRetiro && movimiento.getValor().intValue() > 0) throw new ApiRequestException("El movimiento es un RETIRO por lo que el valor tiene que ser negativo");
-        if (esDeposito && movimiento.getValor().intValue() < 0) throw new ApiRequestException("El movimiento es un DEPOSITO por lo que el valor tiene que ser positivo");
+        if (esRetiro && movimiento.getValor().intValue() > 0)
+            throw new ApiRequestException("El movimiento es un RETIRO por lo que el valor tiene que ser negativo");
+        if (esDeposito && movimiento.getValor().intValue() < 0)
+            throw new ApiRequestException("El movimiento es un DEPOSITO por lo que el valor tiene que ser positivo");
 
         if (esRetiro) {
             this.chequearPosibleMovimientoSegunLimiteDiario(movimiento);
             this.chequearPosibleMovimientoSegunSaldoEnCuenta(movimiento);
-            cuentaEncontrada.getTope().add(movimiento.getValor());
         }
 
         BigDecimal saldoCuentaFinal = cuentaEncontrada.getSaldoInicial().add(movimiento.getValor());
@@ -55,7 +57,7 @@ public class MovimientoService {
     }
 
     public void chequearPosibleMovimientoSegunLimiteDiario(Movimiento movimiento) {
-        List<Movimiento> movimientosByDateAndCuenta = movimientoRepository.findMovimientosByTipoDateAndCuenta(TipoMovimiento.RETIRO,movimiento.getFecha().getDayOfMonth(), movimiento.getFecha().getMonthValue(), movimiento.getFecha().getYear(), movimiento.getCuenta().getCuentaId());
+        List<Movimiento> movimientosByDateAndCuenta = movimientoRepository.findMovimientosByTipoDateAndCuenta(TipoMovimiento.RETIRO, movimiento.getFecha().getDayOfMonth(), movimiento.getFecha().getMonthValue(), movimiento.getFecha().getYear(), movimiento.getCuenta().getCuentaId());
         BigDecimal saldoUtilizado = movimientosByDateAndCuenta.stream()
                 .map(Movimiento::getValor)
                 .reduce(BigDecimal::add)
@@ -75,10 +77,20 @@ public class MovimientoService {
             throw new ApiRequestException("No dispone del saldo suficiente para realizar la operacion");
     }
 
-    public List<MovimientoDTO> getMovimientosBetweenRangoFechas(LocalDateTime fecha1, LocalDateTime fecha2){
-       if (fecha1 == null) throw new ApiRequestException("Fecha desde requerida");
-       if (fecha2 == null) throw new ApiRequestException("Fecha hasta requerida");
+    public List<MovimientoDTO> getMovimientosBetweenRangoFechas(LocalDateTime fecha1, LocalDateTime fecha2) {
+        if (fecha1 == null) throw new ApiRequestException("Fecha desde requerida");
+        if (fecha2 == null) throw new ApiRequestException("Fecha hasta requerida");
+
         List<Movimiento> movimientosByFechaBetween = movimientoRepository.findMovimientosByFechaBetween(fecha1, fecha2);
         return movimientosByFechaBetween.stream().map(movimientoMapper::movimientoToDto).toList();
+    }
+
+
+    public List<MovimientoReport> getMovimientoReport(LocalDateTime fecha1, LocalDateTime fecha2, String clienteId) {
+        if (fecha1 == null) throw new ApiRequestException("Fecha desde requerida");
+        if (fecha2 == null) throw new ApiRequestException("Fecha hasta requerida");
+        if (clienteId == null || clienteId.isBlank()) throw new ApiRequestException("Cliente id requerido");
+
+        return movimientoRepository.movimientosReportByFechaBetweenAndCliente(fecha1, fecha2, clienteId);
     }
 }

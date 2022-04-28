@@ -37,6 +37,7 @@ public class Movimiento implements Serializable {
 
     private BigDecimal valor;
 
+    private BigDecimal saldoInicialDeCuenta;
     @ManyToOne()
     @ToString.Exclude
     private Cuenta cuenta;

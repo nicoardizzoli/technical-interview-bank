@@ -30,15 +30,15 @@ services:
     restart: unless-stopped
 
 
-  prueba-tecnica-banco:
-    image: nicoardizzoli/prueba-tecnica-banco:0.0.1-SNAPSHOT
-    container_name: prueba-tecnica-banco
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - postgres
+#  prueba-tecnica-banco:
+#    image: nicoardizzoli/prueba-tecnica-banco:0.0.1-SNAPSHOT
+#    container_name: prueba-tecnica-banco
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - postgres
 
 networks:
   postgres:

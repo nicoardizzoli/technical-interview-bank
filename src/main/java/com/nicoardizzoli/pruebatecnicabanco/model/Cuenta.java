@@ -26,15 +26,14 @@ public class Cuenta implements Serializable {
     @Column(name = "cuenta_id")
     private Long cuentaId;
 
+    private Integer numeroCuenta;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_cuenta")
     private TipoCuenta tipoCuenta;
 
-
     @Column(name = "saldo_inicial")
     private BigDecimal saldoInicial;
-
 
     private Boolean estado = false;
 
@@ -42,8 +41,8 @@ public class Cuenta implements Serializable {
     @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "cliente_id")
     private Cliente titular;
 
-
     private BigDecimal tope = new BigDecimal(1000);
+
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta")

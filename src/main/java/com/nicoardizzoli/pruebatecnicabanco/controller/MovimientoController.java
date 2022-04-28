@@ -1,7 +1,7 @@
 package com.nicoardizzoli.pruebatecnicabanco.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nicoardizzoli.pruebatecnicabanco.dto.MovimientoDTO;
+import com.nicoardizzoli.pruebatecnicabanco.model.MovimientoReport;
 import com.nicoardizzoli.pruebatecnicabanco.service.MovimientoService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,11 +26,20 @@ public class MovimientoController {
         return new ResponseEntity<>("Movimiento generado exitosamente", HttpStatus.CREATED);
     }
 
-    @GetMapping("/reportes")
+    @GetMapping("/reporteCompleto")
     public ResponseEntity<List<MovimientoDTO>> getMovimientosBetweenRangoFechas(@RequestParam(name = "fecha1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha1  ,
                                                                                 @RequestParam(name = "fecha2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha2) {
 
         List<MovimientoDTO> movimientosBetweenRangoFechas = movimientoService.getMovimientosBetweenRangoFechas(fecha1, fecha2);
+        return new ResponseEntity<>(movimientosBetweenRangoFechas, HttpStatus.OK);
+    }
+
+    @GetMapping("/reporteSolicitado")
+    public ResponseEntity<List<MovimientoReport>> getReporteSolicitado(@RequestParam(name = "fecha1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha1,
+                                                                       @RequestParam(name = "fecha2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha2,
+                                                                       @RequestParam(name = "clienteId") String clienteId) {
+
+        List<MovimientoReport> movimientosBetweenRangoFechas = movimientoService.getMovimientoReport(fecha1, fecha2, clienteId);
         return new ResponseEntity<>(movimientosBetweenRangoFechas, HttpStatus.OK);
     }
 }
