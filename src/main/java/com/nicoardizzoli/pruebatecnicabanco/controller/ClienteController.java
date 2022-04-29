@@ -6,10 +6,7 @@ import com.nicoardizzoli.pruebatecnicabanco.service.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,5 +21,11 @@ public class ClienteController {
     public ResponseEntity<String> saveCliente(@Valid @RequestBody ClienteDTO clienteDTO){
         Cliente cliente = clienteService.saveCliente(clienteDTO);
         return new ResponseEntity<>("Cliente creado exitosamente, id: "+ cliente.getClienteId(),HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<ClienteDTO> getClienteById(@PathVariable("clienteId") String clienteId){
+        ClienteDTO clienteDto = clienteService.getClienteById(clienteId);
+        return new ResponseEntity<>(clienteDto,HttpStatus.CREATED);
     }
 }

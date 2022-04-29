@@ -3,6 +3,7 @@ package com.nicoardizzoli.pruebatecnicabanco.service;
 import com.nicoardizzoli.pruebatecnicabanco.dto.ClienteDTO;
 import com.nicoardizzoli.pruebatecnicabanco.exception.ApiRequestException;
 import com.nicoardizzoli.pruebatecnicabanco.exception.FoundException;
+import com.nicoardizzoli.pruebatecnicabanco.exception.NotFoundException;
 import com.nicoardizzoli.pruebatecnicabanco.mapper.ClienteMapper;
 import com.nicoardizzoli.pruebatecnicabanco.model.Cliente;
 import com.nicoardizzoli.pruebatecnicabanco.model.Genero;
@@ -33,6 +34,13 @@ public class ClienteService {
         cliente.setClienteId(UUID.randomUUID().toString());
         log.info(cliente.toString());
         return clienteRepository.save(cliente);
+    }
+
+    public ClienteDTO getClienteById(String clienteId) {
+        Optional<Cliente> clienteByClienteId = clienteRepository.findClienteByClienteId(clienteId);
+        Cliente cliente = clienteByClienteId.orElseThrow(() -> new NotFoundException("Cliente con id " + clienteId + "not found"));
+        return clienteMapper.clienteToDto(cliente);
+
     }
 
 }

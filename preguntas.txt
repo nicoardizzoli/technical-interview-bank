@@ -21,3 +21,13 @@ ej: ClienteNotFoundException, CuentaNotFoundException, MovimientoNotFoundExcepti
 10) La logica del control de los parametros que nos envian etc, se hace en el mismo controller, o en el service?
 
 11) Integration test: si tengo que probar un repository que necesita guardar cosas con otro repository, los usamos o como habria que hacer (ver MovimientoRepositoryTest)
+
+12) mejores practicas para comentar el codigo
+
+13) en los test, estaria bueno hacer un TestUtils donde por ej haya metodos que devuelvan entidades que se utilizan en varios test, como por ej Cliente, o ClienteDTO etc
+si la respuesta es si, los metodos de TestUtils serian static? asi no tengo que crear una instancia...
+
+14) Idioma del codigo, programamos en ingles? o preguntamos en la entrevista.
+
+15) las entrevistas, son mas de live coding? o mas de que te dan un ejercicio y un tiempo para que lo resuelvas?
+Compartis tu pantalla o como es?
