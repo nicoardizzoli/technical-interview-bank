@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,7 +16,8 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "Cuenta")
+//ESTE NOMBRE ES EL QUE SE VA A USAR EN JPQL PARA LAS QUERYS, SI BIEN LO HACE AUTOMATICO ES UNA BUENA PRACTICA PONERLO.
 public class Cuenta implements Serializable {
 
     @Id
@@ -38,14 +38,16 @@ public class Cuenta implements Serializable {
     private Boolean estado = false;
 
     @ManyToOne()
-    @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "cliente_id", foreignKey = @ForeignKey(name = "cliente_id_cuenta_id_fk"))
     private Cliente titular;
 
     private BigDecimal tope = new BigDecimal(1000);
 
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta")
+    //OJO EN LOS ONE TO MANY, HAY QUE HACER LOS METODOS ADD PARA LA BIDIRECCIONALIDAD.
+    //LA MANERA DE INICIALIZAR LOS MOVIMIENTOS EN LA CUENTA, YA Q ESTAN LAZY, ES LLAMANDO AL GETTER LOS TRAE AUTOMATICAMENTE
+    //EN CASO DE NECESITARLOS.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Movimiento> movimientos = new ArrayList<>();
 
@@ -59,6 +61,7 @@ public class Cuenta implements Serializable {
 
     public void removeMovimiento(Movimiento movimiento) {
         this.movimientos.remove(movimiento);
+        movimiento.setCuenta(null);
     }
 
 

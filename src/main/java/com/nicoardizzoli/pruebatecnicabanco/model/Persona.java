@@ -14,8 +14,8 @@ import java.util.Objects;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@Entity(name = "Persona")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Entity(name = "Persona")
 public abstract class Persona {
 
     @Id

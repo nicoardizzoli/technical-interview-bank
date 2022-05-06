@@ -18,7 +18,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "Movimiento") //ESTE NOMBRE ES EL QUE SE VA A USAR EN JPQL PARA LAS QUERYS, SI BIEN LO HACE AUTOMATICO ES UNA BUENA PRACTICA PONERLO.
 public class Movimiento implements Serializable {
 
     @Id
@@ -26,7 +26,7 @@ public class Movimiento implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movimiento_id_seq")
     private Long movimientoId;
 
-
+    @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
 
 
@@ -34,11 +34,13 @@ public class Movimiento implements Serializable {
     @Column(name = "tipo_movimiento")
     private TipoMovimiento tipoMovimiento;
 
-
+    @Column(name = "valor", nullable = false)
     private BigDecimal valor;
 
+    @Column(name = "saldo_inicial_de_cuenta", nullable = false)
     private BigDecimal saldoInicialDeCuenta;
     @ManyToOne()
+    @JoinColumn(name = "cuenta_id", nullable = false, referencedColumnName = "cuenta_id", foreignKey = @ForeignKey(name = "movimiento_id_cuenta_id_fk"))
     @ToString.Exclude
     private Cuenta cuenta;
 

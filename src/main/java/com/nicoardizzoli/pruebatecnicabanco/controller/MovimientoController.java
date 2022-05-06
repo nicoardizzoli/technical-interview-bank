@@ -4,6 +4,7 @@ import com.nicoardizzoli.pruebatecnicabanco.dto.MovimientoDTO;
 import com.nicoardizzoli.pruebatecnicabanco.model.MovimientoReport;
 import com.nicoardizzoli.pruebatecnicabanco.service.MovimientoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -27,7 +29,7 @@ public class MovimientoController {
     }
 
     @GetMapping("/reporteCompleto")
-    public ResponseEntity<List<MovimientoDTO>> getMovimientosBetweenRangoFechas(@RequestParam(name = "fecha1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha1  ,
+    public ResponseEntity<List<MovimientoDTO>> getMovimientosBetweenRangoFechas(@RequestParam(name = "fecha1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha1,
                                                                                 @RequestParam(name = "fecha2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha2) {
 
         List<MovimientoDTO> movimientosBetweenRangoFechas = movimientoService.getMovimientosBetweenRangoFechas(fecha1, fecha2);
@@ -41,5 +43,23 @@ public class MovimientoController {
 
         List<MovimientoReport> movimientosBetweenRangoFechas = movimientoService.getMovimientoReport(fecha1, fecha2, clienteId);
         return new ResponseEntity<>(movimientosBetweenRangoFechas, HttpStatus.OK);
+    }
+
+    @GetMapping("/reporteSolicitadoOrdenado")
+    public ResponseEntity<List<MovimientoReport>> getReporteSolicitadOrdenado(@RequestParam(name = "fecha1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha1,
+                                                                              @RequestParam(name = "fecha2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha2,
+                                                                              @RequestParam(name = "clienteId") String clienteId) {
+
+        List<MovimientoReport> movimientosBetweenRangoFechasOrdenado = movimientoService.getMovimientoReportSortedByFechaAsc(fecha1, fecha2, clienteId);
+        return new ResponseEntity<>(movimientosBetweenRangoFechasOrdenado, HttpStatus.OK);
+    }
+
+    @GetMapping("/movimientosPageSort")
+    public ResponseEntity<Page<MovimientoDTO>> getMovimientosPageSort(@RequestParam(name = "pageNumber") Optional<Integer> pageNumber,
+                                                                      @RequestParam(name = "pageSize") Optional<Integer> pageSize,
+                                                                      @RequestParam(name = "sortBy") Optional<String> sortBy) {
+
+        Page<MovimientoDTO> allMovimientos = movimientoService.getAllMovimientos(pageNumber, pageSize, sortBy);
+        return new ResponseEntity<>(allMovimientos, HttpStatus.OK);
     }
 }

@@ -11,11 +11,15 @@ import com.nicoardizzoli.pruebatecnicabanco.model.TipoMovimiento;
 import com.nicoardizzoli.pruebatecnicabanco.repository.CuentaRepository;
 import com.nicoardizzoli.pruebatecnicabanco.repository.MovimientoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -32,6 +36,8 @@ public class MovimientoService {
         movimiento.setSaldoInicialDeCuenta(cuentaEncontrada.getSaldoInicial());
         cuentaEncontrada.addMovimiento(movimiento);
         this.chequearMovimiento(movimiento, cuentaEncontrada);
+        BigDecimal saldoCuentaFinal = cuentaEncontrada.getSaldoInicial().add(movimiento.getValor());
+        cuentaEncontrada.setSaldoInicial(saldoCuentaFinal);
         cuentaRepository.save(cuentaEncontrada);
     }
 
@@ -52,8 +58,6 @@ public class MovimientoService {
             this.chequearPosibleMovimientoSegunSaldoEnCuenta(movimiento);
         }
 
-        BigDecimal saldoCuentaFinal = cuentaEncontrada.getSaldoInicial().add(movimiento.getValor());
-        cuentaEncontrada.setSaldoInicial(saldoCuentaFinal);
     }
 
     public void chequearPosibleMovimientoSegunLimiteDiario(Movimiento movimiento) {
@@ -92,5 +96,29 @@ public class MovimientoService {
         if (clienteId == null || clienteId.isBlank()) throw new ApiRequestException("Cliente id requerido");
 
         return movimientoRepository.movimientosReportByFechaBetweenAndCliente(fecha1, fecha2, clienteId);
+    }
+
+    //USO DEL SORT
+    public List<MovimientoReport> getMovimientoReportSortedByFechaAsc(LocalDateTime fecha1, LocalDateTime fecha2, String clienteId) {
+        if (fecha1 == null) throw new ApiRequestException("Fecha desde requerida");
+        if (fecha2 == null) throw new ApiRequestException("Fecha hasta requerida");
+        if (clienteId == null || clienteId.isBlank()) throw new ApiRequestException("Cliente id requerido");
+
+        //El sort tambien se puede combinar con un .and encadenado por si queremos ordenar por varios factores.
+        // EJ, si hay 2 nombres q empiecen con A y uno tiene edad 18 y el otro 22, y poinemos q ordene por nombre y edad, si ponemos
+        // edad desc van a estar los 2 nombres con A pero primero el de 22 y deps el de 18.
+        Sort sortFecha = Sort.by(Sort.Direction.ASC, "fecha");
+        return movimientoRepository.movimientosReportByFechaBetweenAndClienteSortedByFechaAsc(fecha1, fecha2, clienteId, sortFecha);
+    }
+
+    //USO DE PAGINACION Y SORT.
+    //Aca desde el frontend nos pueden mandar la pagina que quieren y la cantidad por pagina y ordenado por que criterio
+    public Page<MovimientoDTO> getAllMovimientos(Optional<Integer> pageNumber, Optional<Integer> pageSize, Optional<String> sortBy) {
+        Sort sortFecha = Sort.by(sortBy.orElse("fecha")).ascending();
+
+        //la pagina 0 seria la primer pagina, el size es el numero de campos q entran en la pag
+        PageRequest pageRequest = PageRequest.of(pageNumber.orElse(0), pageSize.orElse(5), sortFecha);
+        return movimientoRepository.findAll(pageRequest).map(movimientoMapper::movimientoToDto);
+
     }
 }

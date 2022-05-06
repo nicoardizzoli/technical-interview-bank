@@ -1,3 +1,7 @@
+application:
+  title: PRUEBA TECNICA BANCO - ENTREVISTA
+  version: 0.0.1
+
 server:
   port: 8080
 spring:
@@ -9,7 +13,7 @@ spring:
     password: 'password'
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

@@ -22,7 +22,7 @@ public class CuentaService {
 
     public Cuenta saveCuenta(CuentaDTO cuentaDTO) {
         Cliente clienteByClienteId = clienteRepository.findClienteByClienteId(cuentaDTO.getTitular().getClienteId())
-                .orElseThrow(() -> new FoundException(String.format("El cliente con id %s no existe", cuentaDTO.getTitular())));
+                .orElseThrow(() -> new FoundException(String.format("El cliente con id %s no existe", cuentaDTO.getTitular().getClienteId())));
 
         Cuenta cuenta = cuentaMapper.dtoToCuenta(cuentaDTO);
         cuenta.setTitular(clienteByClienteId);

@@ -13,20 +13,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
 @ToString
 @SuperBuilder
-//SUPERBUILDER ES PARA MAPEAR EN EL BUILDER LOS CAMPOS DE LA CLASE PADRE ABSTRACTA, LOS 2 TIENEN Q TENER EL SUPERBUILDER
+//SUPERBUILDER ES PARA MAPEAR EN EL BUILDER LOS CAMPOS DE LA CLASE PADRE ABSTRACTA, LOS 2 TIENEN Q TENER EL SUPERBUILDER ASI FUNCA MAPSTRUCT
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "persona_id")
+@PrimaryKeyJoinColumn(name = "persona_id",foreignKey = @ForeignKey(name = "persona_id_cliente_id"))
 @Table(name = "cliente", uniqueConstraints = {
         //esto es el equivalente a ponerle el unique en la @Column, nada mas que aca podemos elegir el nombre de la constraint
         @UniqueConstraint(name = "cliente_id_unique", columnNames = "cliente_id")})
+@Entity(name = "Cliente") //ESTE NOMBRE ES EL QUE SE VA A USAR EN JPQL PARA LAS QUERYS, SI BIEN LO HACE AUTOMATICO ES UNA BUENA PRACTICA PONERLO.
 public class Cliente extends Persona implements Serializable {
 
+    //BUENA PRACTICA PONER EL COLUMNS EN TODOS..........
+    // si en la base de datos nos piden algun tipo en especial como por ej TEXT o TIMESTAMP es el campo columnDefinition
     @Column(name = "cliente_id", nullable = false)
     private String clienteId;
 
@@ -60,20 +62,6 @@ public class Cliente extends Persona implements Serializable {
         return this.getNombre() + " " + this.getApellido();
     }
 
-//    @Builder(builderMethodName = "clienteBuilder")
-//    public Cliente(String clienteId, String contrasena, Boolean estado, List<Cuenta> cuentas, String nombre, String apellido, Genero genero, Integer edad, String identificacion, String direccion, String telefono) {
-//        this.clienteId = clienteId;
-//        this.contrasena = contrasena;
-//        this.estado = estado;
-//        this.cuentas = cuentas;
-//        super.setNombre(nombre);
-//        super.setApellido(apellido);
-//        super.setGenero(genero);
-//        super.setEdad(edad);
-//        super.setIdentificacion(identificacion);
-//        super.setDireccion(direccion);
-//        super.setTelefono(telefono);
-//    }
 
     @Override
     public boolean equals(Object o) {

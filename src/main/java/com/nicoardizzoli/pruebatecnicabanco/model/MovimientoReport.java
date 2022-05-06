@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class MovimientoReport {
     private LocalDateTime fecha;
+    private TipoMovimiento tipoMovimiento;
     private String clienteNombreCompleto;
     private Integer numeroCuenta;
     private TipoCuenta tipoCuenta;
