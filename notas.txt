@@ -29,3 +29,8 @@
     PARA CORRER UN .sql en una db en docker desde un archivo local:
 
     cat ./query.sql | docker exec -i <container-name> psql -U <user> -d <database>
+
+    -----
+
+13) Para correr una parte del codigo async, como por ej envios de mails de activacion, usamos @Async en el metodo del service, y @EnableAsync en al clase main.
+Aunque, es mejor usar rabbitmq o kafka que ya lo hacen automaticamente.

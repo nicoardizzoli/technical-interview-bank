@@ -23,7 +23,7 @@ public class ClienteController {
         return new ResponseEntity<>("Cliente creado exitosamente, id: "+ cliente.getClienteId(),HttpStatus.CREATED);
     }
 
-    @GetMapping("/{clienteId}")
+    @GetMapping("/{clienteId}")  // http://localhost:8080/api/v1/clientes/1
     public ResponseEntity<ClienteDTO> getClienteById(@PathVariable("clienteId") String clienteId){
         ClienteDTO clienteDto = clienteService.getClienteById(clienteId);
         return new ResponseEntity<>(clienteDto,HttpStatus.CREATED);

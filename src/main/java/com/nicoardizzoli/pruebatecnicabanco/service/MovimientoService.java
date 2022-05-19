@@ -85,8 +85,9 @@ public class MovimientoService {
         if (fecha1 == null) throw new ApiRequestException("Fecha desde requerida");
         if (fecha2 == null) throw new ApiRequestException("Fecha hasta requerida");
 
-        List<Movimiento> movimientosByFechaBetween = movimientoRepository.findMovimientosByFechaBetween(fecha1, fecha2);
-        return movimientosByFechaBetween.stream().map(movimientoMapper::movimientoToDto).toList();
+        return movimientoRepository.findMovimientosByFechaBetween(fecha1, fecha2).stream()
+                .map(movimientoMapper::movimientoToDto)
+                .toList();
     }
 
 

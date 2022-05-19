@@ -28,6 +28,12 @@ public class MovimientoController {
         return new ResponseEntity<>("Movimiento generado exitosamente", HttpStatus.CREATED);
     }
 
+    /**
+     *
+     * @param fecha1 = fecha de inicio del rango de fechas // por ahi poner tambien el formato.
+     * @param fecha2 = fecha de fin del rango de fechas
+     * @return
+     */
     @GetMapping("/reporteCompleto")
     public ResponseEntity<List<MovimientoDTO>> getMovimientosBetweenRangoFechas(@RequestParam(name = "fecha1") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha1,
                                                                                 @RequestParam(name = "fecha2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime fecha2) {
