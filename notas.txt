@@ -34,3 +34,13 @@
 
 13) Para correr una parte del codigo async, como por ej envios de mails de activacion, usamos @Async en el metodo del service, y @EnableAsync en al clase main.
 Aunque, es mejor usar rabbitmq o kafka que ya lo hacen automaticamente.
+
+14) en un controller, se puede enviar tambien mediante http por ejemplo archivos, via @RequestParam (en el postman dentro del body, form-data y ponemos type "FILE"
+
+15) GIT:
+        Un buen commit no tiene que ser de muchos temas juntos y tambien tiene que tener un buen mensaje, con un encabezado y un body. si vemos q tiene muchas cosas
+        seguramente haya que hacer varios commits.
+
+        REBASE: NUNCA HACER REBASE EN UN COMMIT QUE YA ESTE PUSHEADO A UN REPOSITORY REMOTE
+
+        Hay una app que se llama Tower que por ahi facilita el uso de Git.
