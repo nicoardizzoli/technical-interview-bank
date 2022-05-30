@@ -20,7 +20,7 @@ public class MovementReport {
     private Integer accountNumber;
     private AccountType accountType;
     private BigDecimal balance;
-    private Boolean estado;
+    private Boolean state;
     private BigDecimal amount;
     private BigDecimal availableBalance;
 

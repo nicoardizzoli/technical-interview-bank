@@ -34,7 +34,7 @@ public class MovementService {
         Account accountFound = accountRepository.findById(movementDTO.getAccountId()).orElseThrow(() -> new NotFoundException("Account not found"));
         Movement movement = movementMapper.dtoToMovement(movementDTO);
         movement.setInitialAccountBalance(accountFound.getBalance());
-        this.checkMovement(movement);
+        this.checkMovement(movement,accountFound);
         BigDecimal finalAmount = accountFound.getBalance().add(movement.getAmount());
         accountFound.setBalance(finalAmount);
         movement.setAvailableBalance(finalAmount);
@@ -42,7 +42,7 @@ public class MovementService {
         accountRepository.save(accountFound);
     }
 
-    public void checkMovement(Movement movement) {
+    public void checkMovement(Movement movement, Account account) {
 
         boolean isWithdraw = movement.getMovementType().equals(MovementType.WITHDRAW);
         boolean isDeposit = movement.getMovementType().equals(MovementType.DEPOSIT);
@@ -53,26 +53,26 @@ public class MovementService {
             throw new ApiRequestException("The movement is a DEPOSIT, the amount should be positive");
 
         if (isWithdraw) {
-            this.checkDiaryLimit(movement);
-            this.checkAccountBalance(movement);
+            this.checkDiaryLimit(movement,account);
+            this.checkAccountBalance(movement,account);
         }
 
     }
 
-    public void checkDiaryLimit(Movement movement) {
-        List<Movement> movementByDateAndAccount = movementRepository.findMovementsByTypeDateAndAccount(MovementType.WITHDRAW, movement.getDate().getDayOfMonth(), movement.getDate().getMonthValue(), movement.getDate().getYear(), movement.getAccount().getAccountId());
+    public void checkDiaryLimit(Movement movement, Account account) {
+        List<Movement> movementByDateAndAccount = movementRepository.findMovementsByTypeDateAndAccount(MovementType.WITHDRAW, movement.getDate().getDayOfMonth(), movement.getDate().getMonthValue(), movement.getDate().getYear(), account.getAccountId());
         BigDecimal usedBalance = movementByDateAndAccount.stream()
                 .map(Movement::getAmount)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
 
-        if (usedBalance.add(movement.getAmount()).negate().compareTo(movement.getAccount().getWithdrawLimit()) > 0) {
-            throw new ApiRequestException("Diary withdraw limit exceeded, you can withdraw $" + movement.getAccount().getWithdrawLimit().subtract(usedBalance.negate()));
+        if (usedBalance.add(movement.getAmount()).negate().compareTo(account.getWithdrawLimit()) > 0) {
+            throw new ApiRequestException("Diary withdraw limit exceeded, you can withdraw $" + account.getWithdrawLimit().subtract(usedBalance.negate()));
         }
     }
 
-    public void checkAccountBalance(Movement movement) {
-        if (movement.getAmount().compareTo(movement.getAccountBalance()) > 0)
+    public void checkAccountBalance(Movement movement, Account account) {
+        if (movement.getAmount().compareTo(account.getBalance()) > 0)
             throw new ApiRequestException("You don't have enough balance to carry out the operation");
     }
 
