@@ -9,18 +9,20 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.nicoardizzoli</groupId>
-    <artifactId>prueba-tecnica-banco</artifactId>
+    <artifactId>technical-interview-bank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>prueba-tecnica-banco</name>
-    <description>Prueba tecnica banco</description>
+    <name>technical-interview-bank</name>
+    <description>Technical Interview Bank</description>
     <properties>
         <java.version>17</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -32,41 +34,52 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.4.2.Final</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
             <version>0.2.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.8</version>
+        </dependency>
     </dependencies>
 
     <build>
         <pluginManagement>
-            <!--			//si esto fuera un proyecto multimodulo, en esta parte irian las dependencias que quiero en este modulo en especifico, y abajo serian los compartidos-->
         </pluginManagement>
         <plugins>
             <plugin>
@@ -115,7 +128,6 @@
             <id>build-docker-image</id>
             <build>
                 <pluginManagement>
-                    <!--			//si esto fuera un proyecto multimodulo, en esta parte irian las dependencias que quiero en este modulo en especifico, y abajo serian los compartidos-->
                 </pluginManagement>
                 <plugins>
                     <plugin>

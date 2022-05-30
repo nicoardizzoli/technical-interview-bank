@@ -1,21 +1,30 @@
 application:
-  title: PRUEBA TECNICA BANCO - ENTREVISTA
+  title: TECHNICAL INTERVIEW - BANK
   version: 0.0.1
 
 server:
   port: 8080
 spring:
   application:
-    name: prueba-tecnica-banco
+    name: technical-interview-bank
   datasource:
-    url: jdbc:postgresql://localhost:5432/prueba-tecnica-banco
+    url: jdbc:postgresql://localhost:5432/technical-interview-bank
     username: 'nicoardizzoli'
     password: 'password'
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /api-docs.html
+
+api:
+  throwable-in-custom-exception: false
