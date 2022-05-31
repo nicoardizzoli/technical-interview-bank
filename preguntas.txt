@@ -1,0 +1,4 @@
+1) create-customer-component:
+    la validacion async del identification, estaria bien que se haga como esta? osea cada vez que se ingresa un caracter va a buscar a la base de datos.
+    Porque no encontre como hacer para hacer la verificacion cuando termina de escribir la id completa. (lo que hice fue poner el lenght primero para q valide y luego cuando
+    llegas al ultimo caracter que se cumple esa coindicion, ahi usa el metodo async.

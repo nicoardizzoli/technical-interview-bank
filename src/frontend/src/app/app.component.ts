@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  isCollapsed = false;
+export class AppComponent implements OnInit{
+  isCollapsed: boolean = false;
+
+  ngOnInit(): void {
+    this.isCollapsed = true;
+  }
 }

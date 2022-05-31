@@ -2,6 +2,18 @@
 
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Identification</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+      <input nz-input formControlName="identification" placeholder="Customer identification must be unique"/>
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the customer identification!</ng-container>
+        <ng-container *ngIf="control.hasError('duplicated')">Customer with identification already exist!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
     <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Customer name">
@@ -34,18 +46,6 @@
     </nz-form-control>
   </nz-form-item>
 
-
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Identification</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-      <input nz-input formControlName="identification" placeholder="async validate try to write JasonWood"/>
-      <ng-template #userErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">Please input your username!</ng-container>
-        <ng-container *ngIf="control.hasError('duplicated')">The username is redundant!</ng-container>
-      </ng-template>
-    </nz-form-control>
-  </nz-form-item>
-
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Address</nz-form-label>
     <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Customer address">
@@ -59,7 +59,6 @@
       <input nz-input type="text" formControlName="phoneNumber"/>
     </nz-form-control>
   </nz-form-item>
-
 
 
   <nz-form-item>
@@ -82,13 +81,10 @@
 
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Enabled</nz-form-label>
-    <nz-form-control [nzSpan]="12" >
-      <label nz-checkbox  formControlName="state"></label>
+    <nz-form-control [nzSpan]="12">
+      <label nz-checkbox formControlName="state"></label>
     </nz-form-control>
   </nz-form-item>
-
-
-
 
 
   <nz-form-item>

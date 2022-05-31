@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -38,6 +39,41 @@ public class CustomerController {
     @GetMapping("/{customerId}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customerId") String customerId){
         CustomerDTO customerDto = customerService.getCustomerById(customerId);
-        return new ResponseEntity<>(customerDto,HttpStatus.CREATED);
+        return new ResponseEntity<>(customerDto,HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param phoneNumber of customer to search
+     * @return customerDto or throw NotFoundException
+     */
+    @Operation(summary = "Search and return a customer by phoneNumber")
+    @GetMapping("/phoneNumber/{phoneNumber}")
+    public ResponseEntity<CustomerDTO> getCustomerByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber){
+        CustomerDTO customerDto = customerService.getCustomerByPhoneNumber(phoneNumber);
+        return new ResponseEntity<>(customerDto,HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param identification of customer to search
+     * @return customerDto or throw NotFoundException
+     */
+    @Operation(summary = "Search and return a customer by identification")
+    @GetMapping("/identification/{identification}")
+    public ResponseEntity<CustomerDTO> getCustomerByIdentification(@PathVariable("identification") String identification){
+        CustomerDTO customerDto = customerService.getCustomerByIdentification(identification);
+        return new ResponseEntity<>(customerDto,HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @return all customers
+     */
+    @Operation(summary = "Search and return all customers")
+    @GetMapping
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+        List<CustomerDTO> allCustomers = customerService.getAllCustomers();
+        return new ResponseEntity<>(allCustomers, HttpStatus.OK);
     }
 }

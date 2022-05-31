@@ -13,8 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -31,7 +33,10 @@ public class CustomerService {
 
         Optional<Customer> customerByCustomerIdentification = customerRepository.findCustomerByIdentification(customerDTO.getIdentification());
         if (customerByCustomerIdentification.isPresent()) throw new FoundException(String.format("The customer with identification %s already exist", customerDTO.getIdentification()));
-        
+
+        Optional<Customer> customerByCustomerPhoneNumber = customerRepository.findCustomerByPhoneNumber(customerDTO.getPhoneNumber());
+        if (customerByCustomerPhoneNumber.isPresent()) throw new FoundException(String.format("The customer with phone number %s already exist", customerDTO.getPhoneNumber()));
+
         if (Arrays.stream(Gender.values()).noneMatch(genero -> genero.toString().equals(customerDTO.getGender().toString()))) throw new ApiRequestException(String.format("Gender %s does not exist", customerDTO.getGender()));
 
         Customer customer = customerMapper.dtoToCustomer(customerDTO);
@@ -47,6 +52,22 @@ public class CustomerService {
         Customer customer = clienteByClienteId.orElseThrow(() -> new NotFoundException("The customer with id " + clienteId + "not found"));
         return customerMapper.customerToDto(customer);
 
+    }
+
+    public CustomerDTO getCustomerByPhoneNumber(String phoneNumber) {
+        Optional<Customer> clienteByClienteId = customerRepository.findCustomerByPhoneNumber(phoneNumber);
+        Customer customer = clienteByClienteId.orElseThrow(() -> new NotFoundException("The customer with phone number " + phoneNumber + "not found"));
+        return customerMapper.customerToDto(customer);
+    }
+
+    public CustomerDTO getCustomerByIdentification(String identification) {
+        Optional<Customer> clienteByClienteId = customerRepository.findCustomerByIdentification(identification);
+        Customer customer = clienteByClienteId.orElseThrow(() -> new NotFoundException("The customer with identification " + identification + "not found"));
+        return customerMapper.customerToDto(customer);
+    }
+
+    public List<CustomerDTO> getAllCustomers() {
+        return customerRepository.findAll().stream().map(customerMapper::customerToDto).collect(Collectors.toList());
     }
 
 }

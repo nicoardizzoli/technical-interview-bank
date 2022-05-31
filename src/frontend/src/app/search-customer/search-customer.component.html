@@ -1,0 +1,90 @@
+<h1>Search Customers</h1>
+<nz-table
+  #dynamicTable
+  [nzScroll]="{ x: scrollX, y: scrollY }"
+  [nzData]="displayData"
+  [nzTableLayout]="settingValue.tableLayout"
+  [nzBordered]="settingValue.bordered"
+  [nzSimple]="settingValue.simple"
+  [nzLoading]="settingValue.loading"
+  [nzPaginationType]="settingValue.paginationType"
+  [nzPaginationPosition]="settingValue.position"
+  [nzShowSizeChanger]="settingValue.sizeChanger"
+  [nzFrontPagination]="settingValue.pagination"
+  [nzShowPagination]="settingValue.pagination"
+  [nzFooter]="settingValue.footer ? 'Total:'  : null"
+  [nzTitle]="settingValue.title ? 'Customers' : null"
+  [nzSize]="settingValue.size"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)"
+>
+  <thead>
+  <tr *ngIf="settingValue.header">
+    <th nzCustomFilter [nzLeft]="fixedColumn">
+      Name
+      <nz-filter-trigger [(nzVisible)]="visibleName" [nzActive]="searchValueName.length > 0" [nzDropdownMenu]="menuName">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th>Surname
+    </th>
+    <th>Gender</th>
+    <th>age</th>
+    <th nzCustomFilter>identification
+      <nz-filter-trigger [(nzVisible)]="visibleIdentification" [nzActive]="searchValueIdentification.length > 0" [nzDropdownMenu]="menuIdentification">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th>address</th>
+    <th>Phone Number</th>
+    <th>Active</th>
+    <th [nzRight]="fixedColumn">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let customerDto of dynamicTable.data">
+    <tr>
+      <td [nzLeft]="fixedColumn">{{ customerDto.name }}</td>
+
+      <td>{{ customerDto.surname }}</td>
+      <td>{{ customerDto.gender }}</td>
+      <td>{{ customerDto.age }}</td>
+      <td>{{ customerDto.identification }}</td>
+      <td>{{ customerDto.address }}</td>
+      <td>{{ customerDto.phoneNumber }}</td>
+      <td>{{ customerDto.state }}</td>
+
+<!--      <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>-->
+
+      <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+        <a href="#">Delete</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a href="#">More action</a>
+      </td>
+
+    </tr>
+  </ng-container>
+  </tbody>
+</nz-table>
+
+<nz-dropdown-menu #menuName="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueName" />
+      <button nz-button nzSize="small" nzType="primary" (click)="searchName()" class="search-button">Search</button>
+      <button nz-button nzSize="small" (click)="resetName()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuIdentification="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueIdentification" />
+      <button nz-button nzSize="small" nzType="primary" (click)="searchIdentification()" class="search-button">Search</button>
+      <button nz-button nzSize="small" (click)="resetIdentification()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+
+

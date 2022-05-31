@@ -22,13 +22,21 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzNotificationModule} from "ng-zorro-antd/notification";
 import {HttpErrorsInterceptor} from "./interceptors/http-errors.interceptor";
+import {NzMessageServiceModule} from "ng-zorro-antd/message";
+import { SearchCustomerComponent } from './search-customer/search-customer.component';
+import {NzTableModule} from "ng-zorro-antd/table";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {NzDividerModule} from "ng-zorro-antd/divider";
+import {NzRadioModule} from "ng-zorro-antd/radio";
+import {NzSwitchModule} from "ng-zorro-antd/switch";
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateCustomerComponent
+    CreateCustomerComponent,
+    SearchCustomerComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +54,13 @@ registerLocaleData(en);
     NzAutocompleteModule,
     NzSelectModule,
     NzCheckboxModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NzMessageServiceModule,
+    NzTableModule,
+    NzDropDownModule,
+    NzDividerModule,
+    NzRadioModule,
+    NzSwitchModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

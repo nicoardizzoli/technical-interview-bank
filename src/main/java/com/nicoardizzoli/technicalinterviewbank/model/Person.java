@@ -15,7 +15,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person", uniqueConstraints = {
-        @UniqueConstraint(name = "person_identification_unique", columnNames = "identification")})
+        @UniqueConstraint(name = "person_identification_unique", columnNames = "identification"),
+        @UniqueConstraint(name = "person_phone_number_unique", columnNames = "phone_number")
+        })
 @Entity(name = "Person")
 public abstract class Person {
 
