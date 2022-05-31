@@ -26,8 +26,12 @@ public class CustomerService {
 
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
 
-        Optional<Customer> clienteByClienteId = customerRepository.findCustomerByCustomerId(customerDTO.getCustomerId());
-        if (clienteByClienteId.isPresent()) throw new FoundException(String.format("The customer with id %s already exist", customerDTO.getCustomerId()));
+        Optional<Customer> customerByCustomerId = customerRepository.findCustomerByCustomerId(customerDTO.getCustomerId());
+        if (customerByCustomerId.isPresent()) throw new FoundException(String.format("The customer with id %s already exist", customerDTO.getCustomerId()));
+
+        Optional<Customer> customerByCustomerIdentification = customerRepository.findCustomerByIdentification(customerDTO.getIdentification());
+        if (customerByCustomerIdentification.isPresent()) throw new FoundException(String.format("The customer with identification %s already exist", customerDTO.getIdentification()));
+        
         if (Arrays.stream(Gender.values()).noneMatch(genero -> genero.toString().equals(customerDTO.getGender().toString()))) throw new ApiRequestException(String.format("Gender %s does not exist", customerDTO.getGender()));
 
         Customer customer = customerMapper.dtoToCustomer(customerDTO);

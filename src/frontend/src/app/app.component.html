@@ -1,0 +1,67 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>Technical Interview Bank</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Customers" nzIcon="user-add">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="'create-customer'">Create Customer</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Search Customers</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Accounts" nzIcon="bank">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a>Create Account</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Search Accounts</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Movements" nzIcon="dollar">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a>Create movement</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Search movements</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Report movements</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
