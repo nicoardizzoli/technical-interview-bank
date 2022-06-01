@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {NzTableLayout, NzTablePaginationPosition, NzTablePaginationType, NzTableSize} from "ng-zorro-antd/table";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {CustomerDto} from "../model/customer-dto";
-import {CustomerService} from "../services/customer.service";
+import {CustomerDto} from "../../model/customer-dto";
+import {CustomerService} from "../../services/customer.service";
 
 
 

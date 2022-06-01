@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Observable, Observer} from "rxjs";
-import {CustomerService} from "../services/customer.service";
-import {CustomerDto} from "../model/customer-dto";
+import {CustomerService} from "../../services/customer.service";
+import {CustomerDto} from "../../model/customer-dto";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {NzMessageService} from "ng-zorro-antd/message";
 
@@ -18,7 +18,7 @@ export class CreateCustomerComponent implements OnInit {
   errorMessage?: string;
   error?: boolean;
 
-  constructor(private fb: FormBuilder, private bankapiService: CustomerService, private notification: NzNotificationService, private message: NzMessageService) {
+  constructor(private fb: FormBuilder, private customerService: CustomerService, private notification: NzNotificationService, private message: NzMessageService) {
     this.validateForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       surname: ['', [Validators.required, Validators.minLength(2)]],
@@ -57,7 +57,7 @@ export class CreateCustomerComponent implements OnInit {
   userIdentificationAsyncValidator = (control: FormControl) =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
       this.error = true;
-      this.bankapiService.getCustomerByIdentification(control.value).subscribe({
+      this.customerService.getCustomerByIdentification(control.value).subscribe({
         next: (customerDto) => {
           this.error = true;
         },
@@ -102,7 +102,7 @@ export class CreateCustomerComponent implements OnInit {
       surname: this.validateForm.value['surname']
     }
 
-    this.bankapiService.saveCustomer(customerDto).subscribe({
+    this.customerService.saveCustomer(customerDto).subscribe({
       next: (message) => {
         console.log(message);
         this.notification.blank('Customer created', message, {nzPlacement: "bottomRight"});

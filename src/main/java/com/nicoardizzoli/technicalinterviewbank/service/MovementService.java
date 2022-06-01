@@ -31,7 +31,7 @@ public class MovementService {
 
 
     public void saveMovement(MovementDTO movementDTO) {
-        Account accountFound = accountRepository.findById(movementDTO.getAccountId()).orElseThrow(() -> new NotFoundException("Account not found"));
+        Account accountFound = accountRepository.findAccountByAccountNumber(movementDTO.getAccountNumber()).orElseThrow(() -> new NotFoundException("Account not found"));
         Movement movement = movementMapper.dtoToMovement(movementDTO);
         movement.setInitialAccountBalance(accountFound.getBalance());
         this.checkMovement(movement);
@@ -86,22 +86,22 @@ public class MovementService {
     }
 
 
-    public List<MovementReport> getMovementReport(LocalDateTime startDate, LocalDateTime endDate, String customerId) {
+    public List<MovementReport> getMovementReport(LocalDateTime startDate, LocalDateTime endDate, String customerIdentification) {
         if (startDate == null) throw new ApiRequestException("Start date required");
         if (endDate == null) throw new ApiRequestException("End date required");
-        if (customerId == null || customerId.isBlank()) throw new ApiRequestException("Customer id required");
+        if (customerIdentification == null || customerIdentification.isBlank()) throw new ApiRequestException("Customer identification required");
 
-        return movementRepository.movementReportByDateBetweenAndCustomer(startDate, endDate, customerId);
+        return movementRepository.movementReportByDateBetweenAndCustomer(startDate, endDate, customerIdentification);
     }
 
-    public List<MovementReport> getMovementReportSortedByDateAsc(LocalDateTime startDate, LocalDateTime endDate, String customerId, Optional<String> sortBy, Optional<String> sortDirection) {
+    public List<MovementReport> getMovementReportSortedByDateAsc(LocalDateTime startDate, LocalDateTime endDate, String customerIdentification, Optional<String> sortBy, Optional<String> sortDirection) {
         if (startDate == null) throw new ApiRequestException("Start date required");
         if (endDate == null) throw new ApiRequestException("End date required");
-        if (customerId == null || customerId.isBlank()) throw new ApiRequestException("Customer id required");
+        if (customerIdentification == null || customerIdentification.isBlank()) throw new ApiRequestException("Customer identification required");
 
 
         Sort sort = Sort.by(Sort.Direction.valueOf(sortDirection.orElse("ASC")), sortBy.orElse("date"));
-        return movementRepository.movementReportBydateBetweenAndClienteSortedBydateAsc(startDate, endDate, customerId, sort);
+        return movementRepository.movementReportBydateBetweenAndClienteSortedBydateAsc(startDate, endDate, customerIdentification, sort);
     }
 
     //USO DE PAGINACION Y SORT.

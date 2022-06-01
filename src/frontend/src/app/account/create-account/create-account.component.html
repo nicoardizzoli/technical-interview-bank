@@ -1,0 +1,67 @@
+<h1>Create Account</h1>
+
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Customer</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+        <input nz-input formControlName="identification" placeholder="Customer identification"/>
+        <ng-template #userErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">Please input the customer identification!</ng-container>
+          <ng-container *ngIf="control.hasError('duplicated')">Customer with identification does not exist
+          </ng-container>
+        </ng-template>
+        <nz-card *ngIf="renderCustomerData">
+          <p>Name: {{customerDto.name}}</p>
+          <p>Surname: {{customerDto.surname}}</p>
+          <p>Phone Number: {{customerDto.phoneNumber}}</p>
+          <p>Age: {{customerDto.age}}</p>
+          <p>Gender: {{customerDto.gender}}</p>
+          <p>Adress: {{customerDto.address}}</p>
+        </nz-card>
+      </nz-form-control>
+    </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Account type</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Customer gender">
+      <nz-select formControlName="accountType">
+        <nz-option nzValue="SAVINGS" nzLabel="SAVINGS"></nz-option>
+        <nz-option nzValue="CHECKING" nzLabel="CHECKING"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Balance</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Starting balance">
+      <input nz-input type="number" formControlName="balance"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Withdraw limit</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Withdraw limit">
+      <input nz-input type="number" formControlName="withdrawLimit"/>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Enabled</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <label nz-checkbox formControlName="state"></label>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

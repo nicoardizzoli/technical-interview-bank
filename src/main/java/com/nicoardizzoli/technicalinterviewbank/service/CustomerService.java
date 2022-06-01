@@ -28,9 +28,6 @@ public class CustomerService {
 
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
 
-        Optional<Customer> customerByCustomerId = customerRepository.findCustomerByCustomerId(customerDTO.getCustomerId());
-        if (customerByCustomerId.isPresent()) throw new FoundException(String.format("The customer with id %s already exist", customerDTO.getCustomerId()));
-
         Optional<Customer> customerByCustomerIdentification = customerRepository.findCustomerByIdentification(customerDTO.getIdentification());
         if (customerByCustomerIdentification.isPresent()) throw new FoundException(String.format("The customer with identification %s already exist", customerDTO.getIdentification()));
 
@@ -47,12 +44,12 @@ public class CustomerService {
         return customerDTO;
     }
 
-    public CustomerDTO getCustomerById(String clienteId) {
-        Optional<Customer> clienteByClienteId = customerRepository.findCustomerByCustomerId(clienteId);
-        Customer customer = clienteByClienteId.orElseThrow(() -> new NotFoundException("The customer with id " + clienteId + "not found"));
-        return customerMapper.customerToDto(customer);
-
-    }
+//    public CustomerDTO getCustomerById(String clienteId) {
+//        Optional<Customer> clienteByClienteId = customerRepository.findCustomerByCustomerId(clienteId);
+//        Customer customer = clienteByClienteId.orElseThrow(() -> new NotFoundException("The customer with id " + clienteId + "not found"));
+//        return customerMapper.customerToDto(customer);
+//
+//    }
 
     public CustomerDTO getCustomerByPhoneNumber(String phoneNumber) {
         Optional<Customer> clienteByClienteId = customerRepository.findCustomerByPhoneNumber(phoneNumber);

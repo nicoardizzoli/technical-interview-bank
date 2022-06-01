@@ -18,11 +18,10 @@ public class AccountDTO {
 
     private Long accountId;
 
+    private Integer accountNumber;
+
     @NotNull(message = "Account type required")
     private AccountType accountType;
-
-    @NotNull(message = "Starting balance required")
-    private BigDecimal startingBalance;
 
     @NotNull(message = "State required")
     private Boolean state;
@@ -30,8 +29,9 @@ public class AccountDTO {
     @NotNull(message = "Withdraw limit required")
     private BigDecimal withdrawLimit;
 
-    @NotBlank(message = "Holder required")
-    private String customerId;
+
+    @NotBlank(message = "Holder identification required")
+    private String customerIdentification;
 
     @NotNull(message = "Balance required")
     private BigDecimal balance;

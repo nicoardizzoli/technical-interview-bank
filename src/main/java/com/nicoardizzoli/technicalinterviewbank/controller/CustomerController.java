@@ -27,20 +27,9 @@ public class CustomerController {
     @PostMapping("/save")
     public ResponseEntity<String> saveCustomer(@Valid @RequestBody CustomerDTO customerDTO){
         CustomerDTO customerSaved = customerService.saveCustomer(customerDTO);
-        return new ResponseEntity<>("Customer saved successfully, id: "+ customerSaved.getCustomerId(),HttpStatus.CREATED);
+        return new ResponseEntity<>("Customer saved successfully, identification: "+ customerSaved.getIdentification(),HttpStatus.CREATED);
     }
 
-    /**
-     * Get customer by id
-     * @param customerId id of customer to search
-     * @return customerDto or throw NotFoundException
-     */
-    @Operation(summary = "Search and return a customer by customerId")
-    @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customerId") String customerId){
-        CustomerDTO customerDto = customerService.getCustomerById(customerId);
-        return new ResponseEntity<>(customerDto,HttpStatus.OK);
-    }
 
     /**
      *

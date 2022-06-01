@@ -43,9 +43,9 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
                     "m.availableBalance) " +
             "FROM Movement m " +
             "WHERE (m.date BETWEEN :startDate AND :endDate) " +
-            "AND m.account.holder.customerId = :customerId"
+            "AND m.account.holder.identification = :customerIdentification"
     )
-    List<MovementReport> movementReportByDateBetweenAndCustomer(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("customerId") String customerId);
+    List<MovementReport> movementReportByDateBetweenAndCustomer(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("customerIdentification") String customerIdentification);
 
 
     @Transactional
@@ -68,9 +68,9 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
                     "m.availableBalance) " +
             "FROM Movement m " +
             "WHERE (m.date BETWEEN :startDate AND :endDate) " +
-            "AND m.account.holder.customerId = :customerId"
+            "AND m.account.holder.identification = :customerIdentification"
     )
-    List<MovementReport> movementReportBydateBetweenAndClienteSortedBydateAsc(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("customerId") String customerId, Sort sort);
+    List<MovementReport> movementReportBydateBetweenAndClienteSortedBydateAsc(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("customerIdentification") String customerIdentification, Sort sort);
 
 
 

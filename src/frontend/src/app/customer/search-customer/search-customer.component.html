@@ -51,7 +51,7 @@
       <td>{{ customerDto.identification }}</td>
       <td>{{ customerDto.address }}</td>
       <td>{{ customerDto.phoneNumber }}</td>
-      <td>{{ customerDto.state }}</td>
+      <td>{{customerDto.state | yesNo}}</td>
 
 <!--      <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>-->
 

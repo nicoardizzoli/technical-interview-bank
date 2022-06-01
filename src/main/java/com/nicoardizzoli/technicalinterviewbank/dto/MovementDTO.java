@@ -27,7 +27,7 @@ public class MovementDTO {
     @NotNull(message = "Amount required")
     private BigDecimal amount;
 
-    @NotNull(message = "Account required")
-    private Long accountId;
+    @NotNull(message = "Account number required")
+    private Integer accountNumber;
 
 }

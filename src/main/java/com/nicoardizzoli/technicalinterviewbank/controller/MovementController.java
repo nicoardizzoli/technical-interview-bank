@@ -52,22 +52,22 @@ public class MovementController {
     /**
      * @param startDate  startDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
      * @param endDate    endDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
-     * @param customerId id of the customer
+     * @param customerIdentification id of the customer
      * @return a report of the movements from a customer in the range of dates
      */
     @Operation(summary = "Get movements of one customer between startDate and endDate")
-    @GetMapping("/complete-report/{customerId}")
+    @GetMapping("/complete-report/{customerIdentification}")
     public ResponseEntity<List<MovementReport>> getCompleteReport(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime startDate,
                                                                   @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime endDate,
-                                                                  @PathVariable(name = "customerId") String customerId) {
+                                                                  @PathVariable(name = "customerIdentification") String customerIdentification) {
 
-        List<MovementReport> movementReportBetweenDates = movementService.getMovementReport(startDate, endDate, customerId);
+        List<MovementReport> movementReportBetweenDates = movementService.getMovementReport(startDate, endDate, customerIdentification);
         return new ResponseEntity<>(movementReportBetweenDates, HttpStatus.OK);
     }
 
     /**
      *
-     * @param customerId id of the customer
+     * @param customerIdentification id of the customer
      * @param startDate startDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
      * @param endDate end Date of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
      * @param sortBy optional - field to sort
@@ -75,14 +75,14 @@ public class MovementController {
      * @return a list of movements of one customer between range date sorted by sortBy and sortDirection
      */
     @Operation(summary = "Get a report of movements of one customer between range date sorted by sortBy and sortDirection")
-    @GetMapping("/complete-report-ordered/{customerId}")
-    public ResponseEntity<List<MovementReport>> getReporteSolicitadOrdenado(@PathVariable(name = "customerId") String customerId,
+    @GetMapping("/complete-report-ordered/{customerIdentification}")
+    public ResponseEntity<List<MovementReport>> getReporteSolicitadOrdenado(@PathVariable(name = "customerIdentification") String customerIdentification,
                                                                             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime startDate,
                                                                             @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime endDate,
                                                                             @RequestParam(name = "sortBy") Optional<String> sortBy,
                                                                             @RequestParam(name = "sortDirection") Optional<String> sortDirection) {
 
-        List<MovementReport> movimientosBetweenRangoFechasOrdenado = movementService.getMovementReportSortedByDateAsc(startDate, endDate, customerId, sortBy, sortDirection);
+        List<MovementReport> movimientosBetweenRangoFechasOrdenado = movementService.getMovementReportSortedByDateAsc(startDate, endDate, customerIdentification, sortBy, sortDirection);
         return new ResponseEntity<>(movimientosBetweenRangoFechasOrdenado, HttpStatus.OK);
     }
 

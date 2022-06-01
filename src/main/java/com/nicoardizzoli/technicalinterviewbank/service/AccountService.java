@@ -10,7 +10,9 @@ import com.nicoardizzoli.technicalinterviewbank.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -21,18 +23,22 @@ public class AccountService {
     private final AccountMapper accountMapper;
 
     public AccountDTO saveAccount(AccountDTO accountDTO) {
-        Customer holderByCustomerId = customerRepository.findCustomerByCustomerId(accountDTO.getCustomerId())
-                .orElseThrow(() -> new FoundException(String.format("The customer with id %s does not exist", accountDTO.getCustomerId())));
+        Customer holderByCustomerId = customerRepository.findCustomerByIdentification(accountDTO.getCustomerIdentification())
+                .orElseThrow(() -> new FoundException(String.format("The customer with identification %s does not exist", accountDTO.getCustomerIdentification())));
         Account account = accountMapper.dtoToAccount(accountDTO);
         account.setHolder(holderByCustomerId);
-        account.setAccountNumber(getRandomNumber());
+        account.setAccountNumber(getRandomNumber() + holderByCustomerId.getAge());
         Account savedAccount = accountRepository.save(account);
-        accountDTO.setAccountId(savedAccount.getAccountId());
+        accountDTO.setAccountNumber(savedAccount.getAccountNumber());
         return accountDTO;
     }
 
     private int getRandomNumber() {
-        int number = new Random().nextInt(999999);
+        int number = new Random().nextInt(999999999);
         return Integer.parseInt(String.format("%06d", number));
+    }
+
+    public List<AccountDTO> getAllAcounts() {
+       return accountRepository.findAll().stream().map(accountMapper::accountToDto).collect(Collectors.toList());
     }
 }

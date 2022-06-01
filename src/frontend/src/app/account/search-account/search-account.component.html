@@ -1,0 +1,97 @@
+<h1>Search Accounts</h1>
+<nz-table
+  #dynamicTable
+  [nzScroll]="{ x: scrollX, y: scrollY }"
+  [nzData]="displayData"
+  [nzTableLayout]="settingValue.tableLayout"
+  [nzBordered]="settingValue.bordered"
+  [nzSimple]="settingValue.simple"
+  [nzLoading]="settingValue.loading"
+  [nzPaginationType]="settingValue.paginationType"
+  [nzPaginationPosition]="settingValue.position"
+  [nzShowSizeChanger]="settingValue.sizeChanger"
+  [nzFrontPagination]="settingValue.pagination"
+  [nzShowPagination]="settingValue.pagination"
+  [nzFooter]="settingValue.footer ? 'Total:'  : null"
+  [nzTitle]="settingValue.title ? 'Customers' : null"
+  [nzSize]="settingValue.size"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)"
+>
+  <thead>
+  <tr *ngIf="settingValue.header">
+    <th nzCustomFilter [nzLeft]="fixedColumn">
+      Account number
+      <nz-filter-trigger [(nzVisible)]="visibleAccountNumber" [nzActive]="searchValueAccountNumber! > 0" [nzDropdownMenu]="menuAccountNumber">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th nzCustomFilter>Account type
+      <nz-filter-trigger [(nzVisible)]="visibleAccountType" [nzActive]="searchValueAccountType.length > 0" [nzDropdownMenu]="menuAccountType">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th>Customer
+      <nz-filter-trigger [(nzVisible)]="visibleAccountCustomer" [nzActive]="searchValueAccountCustomerIdentification.length > 0" [nzDropdownMenu]="menuAccountCustomerIdentification">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>
+    </th>
+    <th>Withdraw limit</th>
+    <th>Balance</th>
+    <th>Active</th>
+    <th [nzRight]="fixedColumn">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let accountDto of dynamicTable.data">
+    <tr>
+      <td [nzLeft]="fixedColumn">{{ accountDto.accountNumber }}</td>
+      <td>{{ accountDto.accountType }}</td>
+      <td>{{ accountDto.customerIdentification }}</td>
+      <td>{{ accountDto.withdrawLimit }}</td>
+      <td>{{ accountDto.balance }}</td>
+      <td>{{ accountDto.state | yesNo}}</td>
+
+
+      <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+        <a href="#">Delete</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a href="#">More action</a>
+      </td>
+
+    </tr>
+  </ng-container>
+  </tbody>
+</nz-table>
+
+<nz-dropdown-menu #menuAccountNumber="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search account number" [(ngModel)]="searchValueAccountNumber" />
+      <button nz-button nzSize="small" nzType="primary" (click)="searchAccountNumber()" class="search-button">Search</button>
+      <button nz-button nzSize="small" (click)="resetAccountNumber()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuAccountType="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search account type" [(ngModel)]="searchValueAccountType" />
+      <button nz-button nzSize="small" nzType="primary" (click)="searchAccountType()" class="search-button">Search</button>
+      <button nz-button nzSize="small" (click)="resetAccountType()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menuAccountCustomerIdentification="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search customer by identification" [(ngModel)]="searchValueAccountCustomerIdentification" />
+      <button nz-button nzSize="small" nzType="primary" (click)="searchAccountCustomer()" class="search-button">Search</button>
+      <button nz-button nzSize="small" (click)="resetAccountCustomer()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+
+
