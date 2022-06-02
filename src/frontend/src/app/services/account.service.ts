@@ -32,4 +32,13 @@ export class AccountService {
         })
       );
   }
+
+  getAccountByAccountNumber(accountNumber: number): Observable<AccountDto> {
+    return this.httpClient.get<AccountDto>("http://localhost:8080/api/v1/accounts/"+accountNumber)
+      .pipe(
+        catchError((err) => {
+          return throwError(() => new Error(err.error.message));
+        })
+      );
+  }
 }

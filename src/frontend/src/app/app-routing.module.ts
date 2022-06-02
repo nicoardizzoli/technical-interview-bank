@@ -4,6 +4,7 @@ import {CreateCustomerComponent} from "./customer/create-customer/create-custome
 import {SearchCustomerComponent} from "./customer/search-customer/search-customer.component";
 import {CreateAccountComponent} from "./account/create-account/create-account.component";
 import {SearchAccountComponent} from "./account/search-account/search-account.component";
+import {CreateMovementComponent} from "./movement/create-movement/create-movement.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/welcome'},
@@ -12,6 +13,9 @@ const routes: Routes = [
   {path: 'search-customer', component: SearchCustomerComponent},
   {path: 'create-account', component: CreateAccountComponent},
   {path: 'search-account', component: SearchAccountComponent},
+  {path: 'create-movement', component: CreateMovementComponent}
+
+
 ];
 
 @NgModule({

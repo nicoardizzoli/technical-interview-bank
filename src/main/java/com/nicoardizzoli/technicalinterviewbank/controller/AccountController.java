@@ -38,7 +38,19 @@ public class AccountController {
     @Operation(summary = "Get All Accounts")
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAllAccounts() {
-        List<AccountDTO> accountDTOS = accountService.getAllAcounts();
+        List<AccountDTO> accountDTOS = accountService.getAllAccounts();
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param accountNumber number of the account
+     * @return account dto or throw NotFoundException.
+     */
+    @Operation(summary = "Get account by account number")
+    @GetMapping("/{accountNumber}")
+    public ResponseEntity<AccountDTO> getAccountByAccountNumber(@PathVariable("accountNumber") Integer accountNumber) {
+        AccountDTO accountDTO = accountService.getAccountByAccountNumber(accountNumber);
+        return new ResponseEntity<>(accountDTO, HttpStatus.OK);
     }
 }

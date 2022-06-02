@@ -2,6 +2,7 @@ package com.nicoardizzoli.technicalinterviewbank.service;
 
 import com.nicoardizzoli.technicalinterviewbank.dto.AccountDTO;
 import com.nicoardizzoli.technicalinterviewbank.exception.FoundException;
+import com.nicoardizzoli.technicalinterviewbank.exception.NotFoundException;
 import com.nicoardizzoli.technicalinterviewbank.mapper.AccountMapper;
 import com.nicoardizzoli.technicalinterviewbank.model.Account;
 import com.nicoardizzoli.technicalinterviewbank.model.Customer;
@@ -38,7 +39,14 @@ public class AccountService {
         return Integer.parseInt(String.format("%06d", number));
     }
 
-    public List<AccountDTO> getAllAcounts() {
+    public List<AccountDTO> getAllAccounts() {
        return accountRepository.findAll().stream().map(accountMapper::accountToDto).collect(Collectors.toList());
     }
+
+    public AccountDTO getAccountByAccountNumber(Integer accountNumber) {
+        Account account = accountRepository.findAccountByAccountNumber(accountNumber).orElseThrow(() -> new NotFoundException(String.format("The customer with identification %s does not exist", accountNumber)));
+        return accountMapper.accountToDto(account);
+    }
+
+
 }

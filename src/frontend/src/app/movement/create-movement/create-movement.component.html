@@ -1,0 +1,51 @@
+<h1>Create Movement</h1>
+
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Account Number</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+      <input nz-input formControlName="accountNumber" placeholder="Account number"/>
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the account number!</ng-container>
+        <ng-container *ngIf="control.hasError('duplicated')">Account with this number does not exist
+        </ng-container>
+      </ng-template>
+      <nz-card *ngIf="renderAccountData">
+        <p>Name: {{accountDto.accountNumber}}</p>
+        <p>Account type: {{accountDto.accountType}}</p>
+        <p>Customer identification: {{accountDto.customerIdentification}}</p>
+        <p>Withdraw Limit: {{accountDto.withdrawLimit}}</p>
+        <p>Balance: {{accountDto.balance}}</p>
+        <p>State: {{accountDto.state | yesNo}}</p>
+      </nz-card>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Movement type</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Movement type">
+      <nz-select formControlName="movementType">
+        <nz-option nzValue="DEPOSIT" nzLabel="DEPOSIT"></nz-option>
+        <nz-option nzValue="WITHDRAW" nzLabel="WITHDRAW"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Amount</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Amount">
+      <input nz-input type="number" formControlName="amount"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

@@ -1,6 +1,6 @@
 export interface AccountDto {
   accountType: string;
-  accountNumber?: number
+  accountNumber?: number;
   state: boolean;
   withdrawLimit: number;
   customerIdentification: string;

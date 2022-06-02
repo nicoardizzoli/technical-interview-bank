@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
-import {registerLocaleData} from '@angular/common';
+import {CommonModule, DatePipe, registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -31,6 +31,7 @@ import {CreateAccountComponent} from './account/create-account/create-account.co
 import {NzCardModule} from "ng-zorro-antd/card";
 import {SearchAccountComponent} from './account/search-account/search-account.component';
 import { YesNoPipe } from './pipes/yes-no.pipe';
+import { CreateMovementComponent } from './movement/create-movement/create-movement.component';
 
 registerLocaleData(en);
 
@@ -41,7 +42,8 @@ registerLocaleData(en);
     SearchCustomerComponent,
     CreateAccountComponent,
     SearchAccountComponent,
-    YesNoPipe
+    YesNoPipe,
+    CreateMovementComponent
   ],
   imports: [
     BrowserModule,
@@ -67,9 +69,11 @@ registerLocaleData(en);
     NzRadioModule,
     NzSwitchModule,
     NzCardModule,
+    CommonModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
+    DatePipe
     // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorsInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
