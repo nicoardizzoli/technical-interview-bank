@@ -1,0 +1,70 @@
+<nz-range-picker [nzShowTime]="true" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+
+<button nz-button nzType="primary" nzShape="circle" (click)="searchMovements()"><i nz-icon nzType="search"></i></button>
+
+
+<nz-table
+  #dynamicTable
+  [nzScroll]="{ x: scrollX, y: scrollY }"
+  [nzData]="displayData"
+  [nzTableLayout]="settingValue.tableLayout"
+  [nzBordered]="settingValue.bordered"
+  [nzSimple]="settingValue.simple"
+  [nzLoading]="settingValue.loading"
+  [nzPaginationType]="settingValue.paginationType"
+  [nzPaginationPosition]="settingValue.position"
+  [nzShowSizeChanger]="settingValue.sizeChanger"
+  [nzFrontPagination]="settingValue.pagination"
+  [nzShowPagination]="settingValue.pagination"
+  [nzTitle]="settingValue.title ? 'Movements' : null"
+  [nzSize]="settingValue.size"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)"
+>
+  <thead>
+  <tr *ngIf="settingValue.header">
+    <th nzCustomFilter [nzLeft]="fixedColumn">
+      Date
+    </th>
+    <th>Holder</th>
+    <th>Account Number</th>
+    <th>Account Type</th>
+<!--    <th nzCustomFilter>identification-->
+<!--      <nz-filter-trigger [(nzVisible)]="visibleIdentification" [nzActive]="searchValueIdentification.length > 0" [nzDropdownMenu]="menuIdentification">-->
+<!--        <i nz-icon nzType="search"></i>-->
+<!--      </nz-filter-trigger>-->
+<!--    </th>-->
+    <th>balance</th>
+    <th>Active</th>
+    <th>Amount</th>
+    <th>Available Balance</th>
+    <th [nzRight]="fixedColumn">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let movementReportDto of dynamicTable.data">
+    <tr>
+      <td [nzLeft]="fixedColumn">{{ movementReportDto.date }}</td>
+      <td>{{ movementReportDto.holderFullName}}</td>
+      <td>{{ movementReportDto.accountNumber }}</td>
+      <td>{{ movementReportDto.accountType }}</td>
+      <td>{{ movementReportDto.balance }}</td>
+      <td>{{ movementReportDto.estado | yesNo }}</td>
+      <td>{{ movementReportDto.amount }}</td>
+      <td>{{ movementReportDto.availableBalance }}</td>
+
+      <!--      <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>-->
+
+      <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+        <nz-divider nzType="vertical"></nz-divider>
+      </td>
+
+    </tr>
+  </ng-container>
+  </tbody>
+</nz-table>
+
+<br>
+
+<button nz-button nzType="primary" (click)="back()">
+  <i nz-icon nzType="left"></i>Back
+</button>
