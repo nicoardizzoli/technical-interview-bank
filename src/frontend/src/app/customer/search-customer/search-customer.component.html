@@ -56,9 +56,8 @@
 <!--      <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>-->
 
       <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
-        <a href="#">Delete</a>
+        <a [routerLink]="['../movement-report', customerDto.identification]" routerLinkActive="active">View Movements</a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a href="#">More action</a>
       </td>
 
     </tr>

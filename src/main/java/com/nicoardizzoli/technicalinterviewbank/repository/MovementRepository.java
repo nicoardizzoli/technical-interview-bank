@@ -23,10 +23,10 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
             "WHERE DAY(m.date) = :day " +
             "AND MONTH(m.date) = :month " +
             "AND YEAR(m.date) = :year " +
-            "AND m.account.accountId = :accountId " +
+            "AND m.account.accountNumber = :accountNumber " +
             "AND m.movementType = :movementType"
     )
-    List<Movement> findMovementsByTypeDateAndAccount(@Param("movementType") MovementType movementType, @Param("day") int day, @Param("month") int month, @Param("year") int year, @Param("accountId") Long accountId);
+    List<Movement> findMovementsByTypeDateAndAccount(@Param("movementType") MovementType movementType, @Param("day") int day, @Param("month") int month, @Param("year") int year, @Param("accountNumber") Integer accountNumber);
 
 
     List<Movement> findMovementByDateBetween(LocalDateTime date1, LocalDateTime date2);

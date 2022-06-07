@@ -32,6 +32,9 @@ import {NzCardModule} from "ng-zorro-antd/card";
 import {SearchAccountComponent} from './account/search-account/search-account.component';
 import { YesNoPipe } from './pipes/yes-no.pipe';
 import { CreateMovementComponent } from './movement/create-movement/create-movement.component';
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {MovementReportComponent} from "./movement/movement-report/movement-report.component";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 registerLocaleData(en);
 
@@ -43,34 +46,36 @@ registerLocaleData(en);
     CreateAccountComponent,
     SearchAccountComponent,
     YesNoPipe,
-    CreateMovementComponent
+    CreateMovementComponent,
+    MovementReportComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    IconsProviderModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzFormModule,
-    ReactiveFormsModule,
-    NzInputModule,
-    NzButtonModule,
-    NzAutocompleteModule,
-    NzSelectModule,
-    NzCheckboxModule,
-    NzNotificationModule,
-    NzMessageServiceModule,
-    NzTableModule,
-    NzDropDownModule,
-    NzDividerModule,
-    NzRadioModule,
-    NzSwitchModule,
-    NzCardModule,
-    CommonModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        IconsProviderModule,
+        NzLayoutModule,
+        NzMenuModule,
+        NzFormModule,
+        ReactiveFormsModule,
+        NzInputModule,
+        NzButtonModule,
+        NzAutocompleteModule,
+        NzSelectModule,
+        NzCheckboxModule,
+        NzNotificationModule,
+        NzMessageServiceModule,
+        NzTableModule,
+        NzDropDownModule,
+        NzDividerModule,
+        NzRadioModule,
+        NzSwitchModule,
+        NzCardModule,
+        CommonModule,
+        NzDatePickerModule
+    ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     DatePipe

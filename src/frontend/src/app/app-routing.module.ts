@@ -5,6 +5,7 @@ import {SearchCustomerComponent} from "./customer/search-customer/search-custome
 import {CreateAccountComponent} from "./account/create-account/create-account.component";
 import {SearchAccountComponent} from "./account/search-account/search-account.component";
 import {CreateMovementComponent} from "./movement/create-movement/create-movement.component";
+import {MovementReportComponent} from "./movement/movement-report/movement-report.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/welcome'},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'search-customer', component: SearchCustomerComponent},
   {path: 'create-account', component: CreateAccountComponent},
   {path: 'search-account', component: SearchAccountComponent},
-  {path: 'create-movement', component: CreateMovementComponent}
+  {path: 'movement-report/:customerIdentification', component: MovementReportComponent},
+  {path: 'create-movement', component: CreateMovementComponent},
 
 
 ];

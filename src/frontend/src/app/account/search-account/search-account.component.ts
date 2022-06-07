@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NzTableLayout, NzTablePaginationPosition, NzTablePaginationType, NzTableSize} from "ng-zorro-antd/table";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {CustomerDto} from "../../model/customer-dto";
-import {CustomerService} from "../../services/customer.service";
 import {AccountDto} from "../../model/account-dto";
 import {AccountService} from "../../services/account.service";
-
+import {MovementService} from "../../services/movement.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 interface Setting {
@@ -49,8 +48,10 @@ export class SearchAccountComponent implements OnInit {
   visibleAccountType = false;
   visibleAccountNumber = false;
   visibleAccountCustomer: boolean = false;
+  isVisible = false;
+  accountDto!: AccountDto;
 
-  constructor(private formBuilder: FormBuilder, private accountService: AccountService) {}
+  constructor(private formBuilder: FormBuilder, private accountService: AccountService, private movementService: MovementService, private router: Router,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.settingForm = this.formBuilder.group({
@@ -133,7 +134,6 @@ export class SearchAccountComponent implements OnInit {
     this.visibleAccountCustomer = false;
     this.displayData = this.listOfData.filter((item: AccountDto) => item.customerIdentification.indexOf(this.searchValueAccountCustomerIdentification) !== -1);
   }
-
 
 
 }

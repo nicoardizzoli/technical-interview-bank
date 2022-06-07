@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class MovementDTO {
 
     @NotNull
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd' 'HH:mm:ss")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime date;
 
     @NotNull(message = "Movement type required - DEPOSIT or WITHDRAW")

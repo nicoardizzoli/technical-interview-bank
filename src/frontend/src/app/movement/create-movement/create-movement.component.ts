@@ -76,7 +76,7 @@ export class CreateMovementComponent implements OnInit {
   submitForm(): void {
     const movementDto: MovementDto = {
       accountNumber: this.validateForm.value['accountNumber'],
-      date: this.datePipe.transform(new Date(), "YYYY-dd-mm HH:mm:ss")!,
+      date: this.datePipe.transform(new Date(), "yyyy-MM-dd'T'HH:mm:ss")!,
       movementType: this.validateForm.value['movementType'],
       amount: this.validateForm.value['amount']
     }

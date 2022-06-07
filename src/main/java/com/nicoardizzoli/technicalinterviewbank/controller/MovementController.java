@@ -25,40 +25,39 @@ public class MovementController {
 
     /**
      *
-     * @param movementDTO Valid movement, format of date: yyyy-MM-dd' 'HH:mm:ss, example: 2022-05-30 05:18:24
+     * @param movementDTO Valid movement, format of date: yyyy-MM-dd'T'HH:mm:ss, example: 2022-05-30 05:18:24
      * @return a message of success
      */
     @Operation(summary = "Save a movement on an account with id accountId")
     @PostMapping("/save")
     public ResponseEntity<String> saveMovement(@Valid @RequestBody MovementDTO movementDTO) {
         movementService.saveMovement(movementDTO);
-        return new ResponseEntity<>("Movement saved successfully", HttpStatus.CREATED);
-    }
+        return new ResponseEntity<>("Movement saved successfully", HttpStatus.CREATED);    }
 
     /**
-     * @param startDate startDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
-     * @param endDate   endDate of the range to perform the search. Format: yyyy-MM-dd' 'HH:mm:ss
+     * @param startDate startDate of the range to perform the search.  Format: yyyy-MM-dd'T'HH:mm:ss
+     * @param endDate   endDate of the range to perform the search. Format: yyyy-MM-dd'T'HH:mm:ss
      * @return a list of movements between startDate and endDate
      */
-    @Operation(summary = "Get movements between startDate and endDate")
+    @Operation(summary = "Get movements between startDate and endDate Format: yyyy-MM-dd'T'HH:mm:ss")
     @GetMapping("/report")
-    public ResponseEntity<List<MovementDTO>> getMovementBetweenDateRange(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime startDate,
-                                                                         @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime endDate) {
+    public ResponseEntity<List<MovementDTO>> getMovementBetweenDateRange(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+                                                                         @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate) {
 
         List<MovementDTO> movimientosBetweenRangoFechas = movementService.getMovementBetweenDateRange(startDate, endDate);
         return new ResponseEntity<>(movimientosBetweenRangoFechas, HttpStatus.OK);
     }
 
     /**
-     * @param startDate  startDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
-     * @param endDate    endDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
+     * @param startDate  startDate of the range to perform the search.  Format: yyyy-MM-dd'T'HH:mm:ss
+     * @param endDate    endDate of the range to perform the search.  Format: yyyy-MM-dd'T'HH:mm:ss
      * @param customerIdentification id of the customer
      * @return a report of the movements from a customer in the range of dates
      */
-    @Operation(summary = "Get movements of one customer between startDate and endDate")
+    @Operation(summary = "Get movements of one customer between startDate and endDate Format: yyyy-MM-dd'T'HH:mm:ss")
     @GetMapping("/complete-report/{customerIdentification}")
-    public ResponseEntity<List<MovementReport>> getCompleteReport(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime startDate,
-                                                                  @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime endDate,
+    public ResponseEntity<List<MovementReport>> getCompleteReport(@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+                                                                  @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
                                                                   @PathVariable(name = "customerIdentification") String customerIdentification) {
 
         List<MovementReport> movementReportBetweenDates = movementService.getMovementReport(startDate, endDate, customerIdentification);
@@ -68,17 +67,17 @@ public class MovementController {
     /**
      *
      * @param customerIdentification id of the customer
-     * @param startDate startDate of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
-     * @param endDate end Date of the range to perform the search.  Format: yyyy-MM-dd' 'HH:mm:ss
+     * @param startDate startDate of the range to perform the search.  Format: yyyy-MM-dd'T'HH:mm:ss
+     * @param endDate end Date of the range to perform the search.  Format: yyyy-MM-dd'T'HH:mm:ss
      * @param sortBy optional - field to sort
      * @param sortDirection optional - ASC or DESC
      * @return a list of movements of one customer between range date sorted by sortBy and sortDirection
      */
-    @Operation(summary = "Get a report of movements of one customer between range date sorted by sortBy and sortDirection")
+    @Operation(summary = "Get a report of movements of one customer between range date Format: yyyy-MM-dd'T'HH:mm:ss' sorted by sortBy and sortDirection")
     @GetMapping("/complete-report-ordered/{customerIdentification}")
     public ResponseEntity<List<MovementReport>> getReporteSolicitadOrdenado(@PathVariable(name = "customerIdentification") String customerIdentification,
-                                                                            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime startDate,
-                                                                            @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd' 'HH:mm:ss") LocalDateTime endDate,
+                                                                            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+                                                                            @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
                                                                             @RequestParam(name = "sortBy") Optional<String> sortBy,
                                                                             @RequestParam(name = "sortDirection") Optional<String> sortDirection) {
 

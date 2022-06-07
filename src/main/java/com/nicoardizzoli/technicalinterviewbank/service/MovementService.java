@@ -33,6 +33,7 @@ public class MovementService {
     public void saveMovement(MovementDTO movementDTO) {
         Account accountFound = accountRepository.findAccountByAccountNumber(movementDTO.getAccountNumber()).orElseThrow(() -> new NotFoundException("Account not found"));
         Movement movement = movementMapper.dtoToMovement(movementDTO);
+        movement.setAccount(accountFound);
         movement.setInitialAccountBalance(accountFound.getBalance());
         this.checkMovement(movement);
         BigDecimal finalAmount = accountFound.getBalance().add(movement.getAmount());
@@ -60,7 +61,7 @@ public class MovementService {
     }
 
     public void checkDiaryLimit(Movement movement) {
-        List<Movement> movementByDateAndAccount = movementRepository.findMovementsByTypeDateAndAccount(MovementType.WITHDRAW, movement.getDate().getDayOfMonth(), movement.getDate().getMonthValue(), movement.getDate().getYear(), movement.getAccount().getAccountId());
+        List<Movement> movementByDateAndAccount = movementRepository.findMovementsByTypeDateAndAccount(MovementType.WITHDRAW, movement.getDate().getDayOfMonth(), movement.getDate().getMonthValue(), movement.getDate().getYear(), movement.getAccount().getAccountNumber());
         BigDecimal usedBalance = movementByDateAndAccount.stream()
                 .map(Movement::getAmount)
                 .reduce(BigDecimal::add)

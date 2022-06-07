@@ -66,11 +66,11 @@ class CustomerServiceTest {
         //Given
         CustomerDTO customerDto = TestUtils.getCustomerDto();
 
-        given(customerRepository.findCustomerByCustomerId(customerDto.getCustomerId())).willReturn(Optional.of(mock(Customer.class)));
+        given(customerRepository.findCustomerByIdentification(customerDto.getIdentification())).willReturn(Optional.of(mock(Customer.class)));
 
         //When
         //Then
-        assertThatThrownBy(() -> underTestCustomerService.saveCustomer(customerDto)).isInstanceOf(FoundException.class).hasMessage(String.format("The customer with id %s already exist", customerDto.getCustomerId()));
+        assertThatThrownBy(() -> underTestCustomerService.saveCustomer(customerDto)).isInstanceOf(FoundException.class).hasMessage(String.format("The customer with identification %s already exist", customerDto.getIdentification()));
         then(customerRepository).should(never()).save(any(Customer.class));
 
     }
