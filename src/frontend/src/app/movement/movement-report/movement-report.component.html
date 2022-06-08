@@ -1,3 +1,11 @@
+<div class="input-holder-identification" *ngIf="showInputCustomerIdentification">
+  <nz-input-group nzSearch>
+    <input type="text" nz-input placeholder="Customer Identification" [ngModel]="customerIdentification"/>
+  </nz-input-group>
+</div>
+
+<br>
+
 <nz-range-picker [nzShowTime]="true" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
 
 <button nz-button nzType="primary" nzShape="circle" (click)="searchMovements()"><i nz-icon nzType="search"></i></button>
@@ -28,11 +36,11 @@
     <th>Holder</th>
     <th>Account Number</th>
     <th>Account Type</th>
-<!--    <th nzCustomFilter>identification-->
-<!--      <nz-filter-trigger [(nzVisible)]="visibleIdentification" [nzActive]="searchValueIdentification.length > 0" [nzDropdownMenu]="menuIdentification">-->
-<!--        <i nz-icon nzType="search"></i>-->
-<!--      </nz-filter-trigger>-->
-<!--    </th>-->
+    <!--    <th nzCustomFilter>identification-->
+    <!--      <nz-filter-trigger [(nzVisible)]="visibleIdentification" [nzActive]="searchValueIdentification.length > 0" [nzDropdownMenu]="menuIdentification">-->
+    <!--        <i nz-icon nzType="search"></i>-->
+    <!--      </nz-filter-trigger>-->
+    <!--    </th>-->
     <th>balance</th>
     <th>Active</th>
     <th>Amount</th>
@@ -65,6 +73,6 @@
 
 <br>
 
-<button nz-button nzType="primary" (click)="back()">
+<button *ngIf="!showInputCustomerIdentification" nz-button nzType="primary" (click)="back()">
   <i nz-icon nzType="left"></i>Back
 </button>

@@ -5,7 +5,7 @@ import {Setting} from "../../model/setting";
 import {MovementService} from "../../services/movement.service";
 import {MovementReportDto} from "../../model/movement-report-dto";
 import {ActivatedRoute} from "@angular/router";
-import {getISOWeek} from 'date-fns';
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'app-movement-report',
@@ -13,10 +13,10 @@ import {getISOWeek} from 'date-fns';
   styleUrls: ['./movement-report.component.scss']
 })
 export class MovementReportComponent implements OnInit {
-startDate!: Date;
-endDate!: Date;
+  startDate!: Date;
+  endDate!: Date;
 
-  constructor(private location: Location, private formBuilder: FormBuilder, private movementService: MovementService, private activatedRoute: ActivatedRoute) {
+  constructor(private location: Location, private formBuilder: FormBuilder, private movementService: MovementService, private activatedRoute: ActivatedRoute, private message: NzMessageService) {
   }
 
   settingForm?: FormGroup;
@@ -25,19 +25,19 @@ endDate!: Date;
   fixedColumn = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
-  searchValueName = '';
   settingValue!: Setting;
-  searchValueIdentification = '';
-  visibleIdentification = false;
-  visibleName = false;
+  showInputCustomerIdentification = false;
   date = null;
   customerIdentification: string = "";
-
 
 
   ngOnInit(): void {
 
     this.customerIdentification = this.activatedRoute.snapshot.params['customerIdentification'];
+
+    if (this.customerIdentification == undefined) {
+      this.showInputCustomerIdentification = true;
+    }
 
     this.settingForm = this.formBuilder.group({
       bordered: true,
@@ -71,53 +71,17 @@ endDate!: Date;
     this.settingForm.get('noResult')!.valueChanges.subscribe(empty => {
       if (empty) {
         this.listOfData = [];
-      } else {
-        this.generateData();
       }
     });
-    this.generateData();
   }
 
 
   currentPageDataChange($event: readonly MovementReportDto[]): void {
     this.displayData = $event;
-    // this.refreshStatus();
   }
 
-  // refreshStatus(): void {
-  //   const validData = this.displayData.filter(value => !value.disabled);
-  //   const allChecked = validData.length > 0 && validData.every(value => value.checked);
-  //   const allUnChecked = validData.every(value => !value.checked);
-  //   this.allChecked = allChecked;
-  //   this.indeterminate = !allChecked && !allUnChecked;
-  // }
 
 
-  generateData() {
-    // this.customerService.getAllCustomers().subscribe(data => {
-    //   this.displayData = data;
-    //   this.listOfData = data;
-    // })
-  }
-
-  // resetName(): void {
-  //   this.searchValueName = '';
-  //   this.searchName()
-  // }
-  // resetIdentification(): void {
-  //   this.searchValueIdentification = '';
-  //   this.searchIdentification()
-  // }
-  //
-  // searchName(): void {
-  //   this.visibleName= false;
-  //   this.displayData = this.listOfData.filter((item: CustomerDto) => item.name.indexOf(this.searchValueName) !== -1);
-  // }
-  //
-  // searchIdentification(): void {
-  //   this.visibleIdentification = false;
-  //   this.displayData = this.listOfData.filter((item: CustomerDto) => item.identification.indexOf(this.searchValueIdentification) !== -1);
-  // }
 
   back() {
     this.location.back();
@@ -132,10 +96,25 @@ endDate!: Date;
 
 
   searchMovements() {
-    this.movementService.completeReport(this.customerIdentification, this.startDate, this.endDate).subscribe(value => {
-      console.log(value)
-      this.displayData = value;
-      this.listOfData = value;
-    });
+
+    if (this.customerIdentification == undefined) {
+      this.message.create("info","Customer identification required");
+    }
+
+    if (this.startDate == undefined) {
+      this.message.create("info","Start date required");
+    }
+
+    if (this.endDate == undefined) {
+      this.message.create("info","End date required");
+    }
+
+    if (this.customerIdentification != undefined && this.startDate != undefined && this.endDate != undefined) {
+      this.movementService.completeReport(this.customerIdentification, this.startDate, this.endDate).subscribe(value => {
+        console.log(value)
+        this.displayData = value;
+        this.listOfData = value;
+      });
+    }
   }
 }

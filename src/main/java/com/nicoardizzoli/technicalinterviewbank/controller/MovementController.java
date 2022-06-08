@@ -75,11 +75,11 @@ public class MovementController {
      */
     @Operation(summary = "Get a report of movements of one customer between range date Format: yyyy-MM-dd'T'HH:mm:ss' sorted by sortBy and sortDirection")
     @GetMapping("/complete-report-ordered/{customerIdentification}")
-    public ResponseEntity<List<MovementReport>> getReporteSolicitadOrdenado(@PathVariable(name = "customerIdentification") String customerIdentification,
-                                                                            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
-                                                                            @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
-                                                                            @RequestParam(name = "sortBy") Optional<String> sortBy,
-                                                                            @RequestParam(name = "sortDirection") Optional<String> sortDirection) {
+    public ResponseEntity<List<MovementReport>> getOrderedReport(@PathVariable(name = "customerIdentification") String customerIdentification,
+                                                                 @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+                                                                 @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
+                                                                 @RequestParam(name = "sortBy") Optional<String> sortBy,
+                                                                 @RequestParam(name = "sortDirection") Optional<String> sortDirection) {
 
         List<MovementReport> movimientosBetweenRangoFechasOrdenado = movementService.getMovementReportSortedByDateAsc(startDate, endDate, customerIdentification, sortBy, sortDirection);
         return new ResponseEntity<>(movimientosBetweenRangoFechasOrdenado, HttpStatus.OK);
@@ -94,9 +94,9 @@ public class MovementController {
      */
     @Operation(summary = "Get a report of all the movements, paginated")
     @GetMapping("/movements-page-sort")
-    public ResponseEntity<Page<MovementDTO>> getMovimientosPageSort(@RequestParam(name = "pageNumber") Optional<Integer> pageNumber,
-                                                                    @RequestParam(name = "pageSize") Optional<Integer> pageSize,
-                                                                    @RequestParam(name = "sortBy") Optional<String> sortBy) {
+    public ResponseEntity<Page<MovementDTO>> getMovementsPageSort(@RequestParam(name = "pageNumber") Optional<Integer> pageNumber,
+                                                                  @RequestParam(name = "pageSize") Optional<Integer> pageSize,
+                                                                  @RequestParam(name = "sortBy") Optional<String> sortBy) {
 
         Page<MovementDTO> allMovimientos = movementService.getAllMovements(pageNumber, pageSize, sortBy);
         return new ResponseEntity<>(allMovimientos, HttpStatus.OK);

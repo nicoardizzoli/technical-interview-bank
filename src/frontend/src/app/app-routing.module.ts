@@ -16,8 +16,7 @@ const routes: Routes = [
   {path: 'search-account', component: SearchAccountComponent},
   {path: 'movement-report/:customerIdentification', component: MovementReportComponent},
   {path: 'create-movement', component: CreateMovementComponent},
-
-
+  {path: 'movement-report', component: MovementReportComponent}
 ];
 
 @NgModule({

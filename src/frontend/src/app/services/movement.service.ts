@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
-import {CustomerDto} from "../model/customer-dto";
+import {Injectable} from '@angular/core';
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {ApiExceptionPayload} from "../model/api-exception-payload";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {MovementDto} from "../model/movement-dto";
 import {MovementReportDto} from "../model/movement-report-dto";
-import * as moment from "moment";
-import {DatePipe, formatDate} from "@angular/common";
+import {DatePipe} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
