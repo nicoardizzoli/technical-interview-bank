@@ -36,22 +36,10 @@ public class ApiExceptionHandler {
 
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException e){
         ApiExceptionPayload apiExceptionPayload = new ApiExceptionPayload(e.getMessage(), e, HttpStatus.BAD_REQUEST, ZonedDateTime.now(),showThrowableException);
         return new ResponseEntity<>(apiExceptionPayload, HttpStatus.BAD_REQUEST);
     }
 
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleClienteExistenteException(MethodArgumentNotValidException e) {
-        ApiExceptionPayload apiExceptionPayload = new ApiExceptionPayload(Objects.requireNonNull(e.getFieldError()).getDefaultMessage(), e, HttpStatus.BAD_REQUEST, ZonedDateTime.now(),showThrowableException);
-        return new ResponseEntity<>(apiExceptionPayload, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(FoundException.class)
-    public ResponseEntity<Object> handleClienteExistenteException(FoundException e) {
-        ApiExceptionPayload apiExceptionPayload = new ApiExceptionPayload(Objects.requireNonNull(e.getMessage()), e, HttpStatus.NOT_ACCEPTABLE, ZonedDateTime.now(),showThrowableException);
-        return new ResponseEntity<>(apiExceptionPayload, HttpStatus.NOT_ACCEPTABLE);
-    }
 }

@@ -1,6 +1,6 @@
 <div class="input-holder-identification" *ngIf="showInputCustomerIdentification">
   <nz-input-group nzSearch>
-    <input type="text" nz-input placeholder="Customer Identification" [ngModel]="customerIdentification"/>
+    <input type="text" nz-input placeholder="Customer Identification" [(ngModel)]="customerIdentification"/>
   </nz-input-group>
 </div>
 
@@ -55,8 +55,8 @@
       <td>{{ movementReportDto.holderFullName}}</td>
       <td>{{ movementReportDto.accountNumber }}</td>
       <td>{{ movementReportDto.accountType }}</td>
-      <td>{{ movementReportDto.balance }}</td>
       <td>{{ movementReportDto.estado | yesNo }}</td>
+      <td>{{ movementReportDto.balance }}</td>
       <td>{{ movementReportDto.amount }}</td>
       <td>{{ movementReportDto.availableBalance }}</td>
 
