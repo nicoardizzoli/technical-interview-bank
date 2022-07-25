@@ -48,7 +48,7 @@ public class Account implements Serializable {
     private Customer holder;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,  mappedBy = "account", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Movement> movements = new ArrayList<>();
 

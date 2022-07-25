@@ -21,7 +21,8 @@
   <tr *ngIf="settingValue.header">
     <th nzCustomFilter [nzLeft]="fixedColumn">
       Name
-      <nz-filter-trigger [(nzVisible)]="visibleName" [nzActive]="searchValueName.length > 0" [nzDropdownMenu]="menuName">
+      <nz-filter-trigger [(nzVisible)]="visibleName" [nzActive]="searchValueName.length > 0"
+                         [nzDropdownMenu]="menuName">
         <i nz-icon nzType="search"></i>
       </nz-filter-trigger>
     </th>
@@ -30,7 +31,8 @@
     <th>Gender</th>
     <th>age</th>
     <th nzCustomFilter>identification
-      <nz-filter-trigger [(nzVisible)]="visibleIdentification" [nzActive]="searchValueIdentification.length > 0" [nzDropdownMenu]="menuIdentification">
+      <nz-filter-trigger [(nzVisible)]="visibleIdentification" [nzActive]="searchValueIdentification.length > 0"
+                         [nzDropdownMenu]="menuIdentification">
         <i nz-icon nzType="search"></i>
       </nz-filter-trigger>
     </th>
@@ -53,11 +55,34 @@
       <td>{{ customerDto.phoneNumber }}</td>
       <td>{{customerDto.state | yesNo}}</td>
 
-<!--      <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>-->
+      <!--      <td [nzEllipsis]="settingValue.ellipsis">{{ data.address }}</td>-->
 
       <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
-        <a [routerLink]="['../movement-report', customerDto.identification]" routerLinkActive="active">View Movements</a>
-        <nz-divider nzType="vertical"></nz-divider>
+        <div>
+          <a nz-button
+          >
+            <i title="Edit customer" nz-icon nzType="edit" nzTheme="outline"></i>
+          </a>
+
+          <a
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure delete this customer?"
+            (nzOnConfirm)="confirmDelete(customerDto.identification)"
+            (nzOnCancel)="cancelDelete()"
+            nzPopconfirmPlacement="top"
+            nz-button
+          >
+            <i title="Delete customer" nz-icon nzType="delete" nzTheme="outline"></i>
+          </a>
+
+
+          <a
+              nz-button
+              [routerLink]="['../movement-report', customerDto.identification]" routerLinkActive="active">
+            <i title="View movements" nz-icon nzType="bar-chart" nzTheme="outline"></i></a>
+        </div>
+
+
       </td>
 
     </tr>
@@ -68,7 +93,7 @@
 <nz-dropdown-menu #menuName="nzDropdownMenu">
   <div class="ant-table-filter-dropdown">
     <div class="search-box">
-      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueName" />
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueName"/>
       <button nz-button nzSize="small" nzType="primary" (click)="searchName()" class="search-button">Search</button>
       <button nz-button nzSize="small" (click)="resetName()">Reset</button>
     </div>
@@ -78,8 +103,9 @@
 <nz-dropdown-menu #menuIdentification="nzDropdownMenu">
   <div class="ant-table-filter-dropdown">
     <div class="search-box">
-      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueIdentification" />
-      <button nz-button nzSize="small" nzType="primary" (click)="searchIdentification()" class="search-button">Search</button>
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueIdentification"/>
+      <button nz-button nzSize="small" nzType="primary" (click)="searchIdentification()" class="search-button">Search
+      </button>
       <button nz-button nzSize="small" (click)="resetIdentification()">Reset</button>
     </div>
   </div>

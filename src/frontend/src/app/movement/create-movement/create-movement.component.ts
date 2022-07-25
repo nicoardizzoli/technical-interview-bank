@@ -84,7 +84,7 @@ export class CreateMovementComponent implements OnInit {
     this.movementService.saveMovement(movementDto).subscribe({
       next: (message: string) => {
         console.log(message);
-        this.notification.blank('Account created', message, {nzPlacement: "bottomRight"});
+        this.notification.blank('Movement created', message, {nzPlacement: "topRight"});
         this.resetForm(new MouseEvent('click'));
         this.renderAccountData = false;
       },

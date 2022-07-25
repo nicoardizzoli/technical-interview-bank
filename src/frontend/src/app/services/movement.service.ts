@@ -6,16 +6,19 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {MovementDto} from "../model/movement-dto";
 import {MovementReportDto} from "../model/movement-report-dto";
 import {DatePipe} from "@angular/common";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovementService {
 
+  url : string = environment.serviceUrl;
+
   constructor(private httpClient: HttpClient,private datePipe: DatePipe) { }
 
   saveMovement(movementDto: MovementDto): Observable<any> {
-    return this.httpClient.post("http://localhost:8080/api/v1/movements/save", movementDto, {responseType: "text"})
+    return this.httpClient.post(this.url+"/api/v1/movements/save", movementDto, {responseType: "text"})
       .pipe(
         catchError((err) => {
           const apiPayload: ApiExceptionPayload = JSON.parse(err.error);
@@ -31,7 +34,7 @@ export class MovementService {
     params = params.append('startDate', startDateFormatted);
     params = params.append('endDate', endDateFormatted);
 
-    return this.httpClient.get<Array<MovementReportDto>>("http://localhost:8080/api/v1/movements/complete-report/"+customerIdentification, {params: params})
+    return this.httpClient.get<Array<MovementReportDto>>(this.url+"/api/v1/movements/complete-report/"+customerIdentification, {params: params})
       .pipe(
         catchError((err) => {
           const apiPayload: ApiExceptionPayload = JSON.parse(err.error);

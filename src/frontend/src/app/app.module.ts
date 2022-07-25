@@ -35,6 +35,7 @@ import { CreateMovementComponent } from './movement/create-movement/create-movem
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {MovementReportComponent} from "./movement/movement-report/movement-report.component";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 
 registerLocaleData(en);
 
@@ -74,7 +75,8 @@ registerLocaleData(en);
         NzSwitchModule,
         NzCardModule,
         CommonModule,
-        NzDatePickerModule
+        NzDatePickerModule,
+        NzPopconfirmModule
     ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

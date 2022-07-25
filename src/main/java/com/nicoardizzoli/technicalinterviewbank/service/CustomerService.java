@@ -67,4 +67,8 @@ public class CustomerService {
         return customerRepository.findAll().stream().map(customerMapper::customerToDto).collect(Collectors.toList());
     }
 
+    public void deleteCustomer(String identification) {
+        Customer customerToDelete = customerRepository.findCustomerByIdentification(identification).orElseThrow(() -> new ApiRequestException("Customer with identification " + identification + " not found"));
+        customerRepository.delete(customerToDelete);
+    }
 }

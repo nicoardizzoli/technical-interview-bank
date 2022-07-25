@@ -18,6 +18,7 @@ public class ApiExceptionPayload {
     private HttpStatus httpStatus;
     private ZonedDateTime zonedDateTime;
 
+    //TODO: hacer el showThrowable configurable por sistema
     public ApiExceptionPayload(String message, Throwable throwable, HttpStatus httpStatus, ZonedDateTime zonedDateTime, Boolean showThrowable) {
         this.message = message;
         if (showThrowable) {

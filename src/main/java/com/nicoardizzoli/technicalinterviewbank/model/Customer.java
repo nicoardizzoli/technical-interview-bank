@@ -16,9 +16,15 @@ import java.util.Objects;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "person_id",foreignKey = @ForeignKey(name = "person_id_customer_id"))
-@Table(name = "customer", uniqueConstraints = {
-        @UniqueConstraint(name = "customer_id_unique", columnNames = "customer_id")})
+@PrimaryKeyJoinColumn(
+        name = "person_id",
+        foreignKey = @ForeignKey(name = "person_id_customer_id")
+)
+@Table(name = "customer",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "customer_id_unique", columnNames = "customer_id")
+        })
+
 @Entity(name = "Customer")
 public class Customer extends Person implements Serializable {
 

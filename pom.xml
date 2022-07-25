@@ -15,6 +15,8 @@
     <description>Technical Interview Bank</description>
     <properties>
         <java.version>17</java.version>
+        <app.image.name>technical-interview-bank</app.image.name>
+        <app.image.tag/>
     </properties>
 
     <dependencies>
@@ -79,8 +81,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -120,88 +120,311 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:17</image>
+                    </from>
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                        <format>OCI</format>
+                    </container>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
     <profiles>
+
         <profile>
-            <id>build-docker-image</id>
+            <id>jib-push-to-dockerhub</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <build>
-                <pluginManagement>
-                </pluginManagement>
                 <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>repackage</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
                         <version>3.2.1</version>
                         <configuration>
                             <from>
-                                <image>eclipse-temurin:17</image>
-                                <platforms>
-                                    <platform>
-                                        <architecture>arm64</architecture>
-                                        <os>linux</os>
-                                    </platform>
-                                    <platform>
-                                        <architecture>amd64</architecture>
-                                        <os>linux</os>
-                                    </platform>
-                                </platforms>
+                                <image>openjdk:17</image>
                             </from>
                             <to>
-                                <image>nicoardizzoli/${project.artifactId}:${project.version}</image>
+                                <image>docker.io/nicoardizzoli/${app.image.name}:${app.image.tag}</image>
                             </to>
+                            <container>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <format>OCI</format>
+                            </container>
                         </configuration>
+
                         <executions>
                             <execution>
+                                <id>push-custom-tag</id>
                                 <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>docker.io/nicoardizzoli/${app.image.name}:${app.image.tag}</image>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+
+                            <execution>
+                                <id>push-latest-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>docker.io/nicoardizzoli/${app.image.name}:latest</image>
+                                    </to>
+                                </configuration>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jib-push-to-local</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>3.2.1</version>
                         <configuration>
-                            <source>17</source> <!-- depending on your project -->
-                            <target>17</target> <!-- depending on your project -->
-                            <annotationProcessorPaths>
-                                <path>
-                                    <groupId>org.projectlombok</groupId>
-                                    <artifactId>lombok</artifactId>
-                                    <version>1.18.22</version>
-                                </path>
-                                <!-- This is needed when using Lombok 1.18.16 and above -->
-                                <path>
-                                    <groupId>org.projectlombok</groupId>
-                                    <artifactId>lombok-mapstruct-binding</artifactId>
-                                    <version>0.2.0</version>
-                                </path>
-                                <!-- Mapstruct should follow the lombok path(s) -->
-                                <path>
-                                    <groupId>org.mapstruct</groupId>
-                                    <artifactId>mapstruct-processor</artifactId>
-                                    <version>1.4.2.Final</version>
-                                </path>
-                            </annotationProcessorPaths>
+                            <from>
+                                <image>openjdk:17</image>
+                            </from>
+                            <to>
+                                <image>nicoardizzoli/${app.image.name}:${app.image.tag}</image>
+                            </to>
+                            <container>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <format>OCI</format>
+                            </container>
                         </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>push-custom-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>nicoardizzoli/${app.image.name}:${app.image.tag}</image>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                            </execution>
+
+                            <execution>
+                                <id>push-latest-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>nicoardizzoli/${app.image.name}:latest</image>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>build-frontend</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <!-- Use the latest released version:
+                                  https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+                        <version>1.9.1</version>
+                        <configuration>
+                            <nodeVersion>v16.14.2</nodeVersion>
+                            <workingDirectory>src/frontend</workingDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>v16.14.2</nodeVersion>
+                                    <npmVersion>8.7.0</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm run build</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>run build</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-build-folder</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/frontend/dist/frontend</directory>
+                                        </resource>
+
+                                    </resources>
+                                    <outputDirectory>${basedir}/target/classes/static</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--        <profile>-->
+<!--            <id>build-docker-image</id>-->
+<!--            <build>-->
+<!--                <pluginManagement>-->
+<!--                </pluginManagement>-->
+<!--                <plugins>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.springframework.boot</groupId>-->
+<!--                        <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <goals>-->
+<!--                                    <goal>repackage</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                    <plugin>-->
+<!--                        <groupId>com.google.cloud.tools</groupId>-->
+<!--                        <artifactId>jib-maven-plugin</artifactId>-->
+<!--                        <version>3.2.1</version>-->
+<!--                        <configuration>-->
+<!--                            <from>-->
+<!--                                <image>eclipse-temurin:17</image>-->
+<!--                                <platforms>-->
+<!--                                    <platform>-->
+<!--                                        <architecture>arm64</architecture>-->
+<!--                                        <os>linux</os>-->
+<!--                                    </platform>-->
+<!--                                    <platform>-->
+<!--                                        <architecture>amd64</architecture>-->
+<!--                                        <os>linux</os>-->
+<!--                                    </platform>-->
+<!--                                </platforms>-->
+<!--                            </from>-->
+<!--                            <to>-->
+<!--                                <image>nicoardizzoli/${project.artifactId}:${project.version}</image>-->
+<!--                            </to>-->
+<!--                        </configuration>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <phase>package</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>build</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                        <configuration>-->
+<!--                            <source>17</source> &lt;!&ndash; depending on your project &ndash;&gt;-->
+<!--                            <target>17</target> &lt;!&ndash; depending on your project &ndash;&gt;-->
+<!--                            <annotationProcessorPaths>-->
+<!--                                <path>-->
+<!--                                    <groupId>org.projectlombok</groupId>-->
+<!--                                    <artifactId>lombok</artifactId>-->
+<!--                                    <version>1.18.22</version>-->
+<!--                                </path>-->
+<!--                                &lt;!&ndash; This is needed when using Lombok 1.18.16 and above &ndash;&gt;-->
+<!--                                <path>-->
+<!--                                    <groupId>org.projectlombok</groupId>-->
+<!--                                    <artifactId>lombok-mapstruct-binding</artifactId>-->
+<!--                                    <version>0.2.0</version>-->
+<!--                                </path>-->
+<!--                                &lt;!&ndash; Mapstruct should follow the lombok path(s) &ndash;&gt;-->
+<!--                                <path>-->
+<!--                                    <groupId>org.mapstruct</groupId>-->
+<!--                                    <artifactId>mapstruct-processor</artifactId>-->
+<!--                                    <version>1.4.2.Final</version>-->
+<!--                                </path>-->
+<!--                            </annotationProcessorPaths>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
     </profiles>
 
 

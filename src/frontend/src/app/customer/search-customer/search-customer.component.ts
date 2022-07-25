@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {CustomerDto} from "../../model/customer-dto";
 import {CustomerService} from "../../services/customer.service";
 import {Setting} from "../../model/setting";
+import {NzMessageService} from "ng-zorro-antd/message";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 
 @Component({
@@ -24,7 +26,7 @@ export class SearchCustomerComponent implements OnInit {
   visibleIdentification = false;
   visibleName = false;
 
-  constructor(private formBuilder: FormBuilder, private customerService: CustomerService) {}
+  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private notification: NzNotificationService, private message: NzMessageService) {}
 
   ngOnInit(): void {
     this.settingForm = this.formBuilder.group({
@@ -108,5 +110,22 @@ export class SearchCustomerComponent implements OnInit {
   }
 
 
+  confirmDelete(identification: string) {
+    this.customerService.deleteCustomer(identification);
 
+    this.customerService.deleteCustomer(identification).subscribe({
+      next: (message) => {
+        console.log(message);
+        this.notification.blank('Customer deleted', message, {nzPlacement: "topRight"});
+        this.generateData();
+      },
+      error: (e) => {
+        this.message.create("error", e);
+      }
+    })
+  }
+
+  cancelDelete() {
+
+  }
 }

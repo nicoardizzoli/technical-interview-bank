@@ -105,7 +105,7 @@ export class CreateCustomerComponent implements OnInit {
     this.customerService.saveCustomer(customerDto).subscribe({
       next: (message) => {
         console.log(message);
-        this.notification.blank('Customer created', message, {nzPlacement: "bottomRight"});
+        this.notification.blank('Customer created', message, {nzPlacement: "topRight"});
         this.resetForm(new MouseEvent('click'));
       },
       error: (e) => {
