@@ -5,13 +5,37 @@ This is a home interview challenge, the main goal is to do a REST API with Java 
 
 In my case, i added an Angular Frontend, and deploy all in AWS (ElasticBeanstalk, RDS). 
 
+Tools and Technologies used:
+<br>
+* SpringBoot
+* Java 17
+* Mapstruct
+* Lombok
+* Spring Data JPA
+* Spring Cloud
+* Junit5
+* Mockit
+* AssertJ
+* Swagger
+* OpenAPI-UI
+* Spring Profiles
+* Docker
+* Angular
+* Ant Design
+* PostgreSQL
+* AWS (ElasticBeanstalk, RDS)
+* GoogleContainerTools JIB 
+* FrontEndMaven Plugin
+* Maven
+* Intellij ULTIMATE
+
 TODO: 
 <br>
 Implement a login based on Oauth2 (Auth0) 
 <br>
 Implement Password enctrypt
 <br>
-Implement save users data 
+Implement save users data (from auth0)
 <br>
 And much more, but this technical interview only requires a REST API.
 
