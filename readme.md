@@ -6,27 +6,28 @@ This is a home interview challenge, the main goal is to do a REST API with Java 
 In my case, i added an Angular Frontend, and deploy all in AWS (ElasticBeanstalk, RDS). 
 
 Tools and Technologies used:
-SpringBoot
-Java 17
-Mapstruct
-Lombok 
-Spring Data JPA
-Spring Cloud
-Junit5
-Mockito
-AssertJ
-Swagger
-OpenAPI-UI
-Spring Profiles 
-Docker
-Angular
-Ant Design
-PostgreSQL
-AWS (ElasticBeanstalk, RDS)
-GoogleContainerTools JIB 
-FrontEndMaven Plugin
-Maven
-Intellij Ultimate
+<br>
+* SpringBoot
+* Java 17
+* Mapstruct
+* Lombok
+* Spring Data JPA
+* Spring Cloud
+* Junit5
+* Mockit
+* AssertJ
+* Swagger
+* OpenAPI-UI
+* Spring Profiles
+* Docker
+* Angular
+* Ant Design
+* PostgreSQL
+* AWS (ElasticBeanstalk, RDS)
+* GoogleContainerTools JIB 
+* FrontEndMaven Plugin
+* Maven
+* Intellij ULTIMATE
 
 TODO: 
 <br>
